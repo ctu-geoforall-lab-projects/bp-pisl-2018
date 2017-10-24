@@ -1,5 +1,9 @@
 from pywps import Process, LiteralInput, LiteralOutput
+import configparser
+from configparser import ConfigParser
 import psycopg2
+
+
 
 class DbTest(Process):
 	def __init__(self):
@@ -21,8 +25,13 @@ class DbTest(Process):
 	
 	def _handler(self, request, response):
 		user_input= request.inputs['dbname'][0].data
+		Config = ConfigParser()
+		Config.read("/home/pisl/pywps-flask/pywps.cfg")        
+		user=Config['db']['user']
+		password=Config['db']['password']
+		host=Config['db']['host']
 		try:
-			conn = psycopg2.connect("dbname=" + user_input + " user=pisl password=bakalarka host=geo102.fsv.cvut.cz")
+			conn = psycopg2.connect("dbname=" + user_input + " user=" + user + " password=" + password + " host=" + host)
 			response.outputs['response'].data = "Success"
 		except:
 			response.outputs['response'].data = "Fail"
@@ -30,3 +39,8 @@ class DbTest(Process):
 	
 
 	
+
+
+
+
+
