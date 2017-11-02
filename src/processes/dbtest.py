@@ -4,7 +4,7 @@ import psycopg2
 from configparser import ConfigParser
 
 from pywps import Process, LiteralInput, LiteralOutput
-
+from pywps.configuration import CONFIG
 
 class DbTest(Process):
 	def __init__(self):
@@ -36,6 +36,8 @@ class DbTest(Process):
 	def _handler(self, request, response):
 		user_input= request.inputs['dbname'][0].data
 		conn = self.db_connect()
+		# TODO: why global config is not working ?
+#		conn = CONFIG['db']
 		try:
 			conn = psycopg2.connect(
                                 "dbname={} user={} password={} host={}".format(
