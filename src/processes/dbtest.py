@@ -1,8 +1,9 @@
-from pywps import Process, LiteralInput, LiteralOutput
-import configparser
-from configparser import ConfigParser
-import psycopg2
+import os
 
+import psycopg2
+from configparser import ConfigParser
+
+from pywps import Process, LiteralInput, LiteralOutput
 
 
 class DbTest(Process):
@@ -22,25 +23,25 @@ class DbTest(Process):
             status_supported=True
 			
 		)
-	
+
+	def db_connect(self):
+		cfg_file = os.path.join(os.path.dirname(__file__), '..', 'pywps.cfg')
+		config = ConfigParser()
+		config.read(cfg_file)
+		if 'db' not in config.keys():
+			raise Exception("Failed reading DB connection settings")
+
+		return config['db']
+
 	def _handler(self, request, response):
 		user_input= request.inputs['dbname'][0].data
-		Config = ConfigParser()
-		Config.read("/home/pisl/pywps-flask/pywps.cfg")        
-		user=Config['db']['user']
-		password=Config['db']['password']
-		host=Config['db']['host']
+		conn = self.db_connect()
 		try:
-			conn = psycopg2.connect("dbname=" + user_input + " user=" + user + " password=" + password + " host=" + host)
+			conn = psycopg2.connect(
+                                "dbname={} user={} password={} host={}".format(
+                                        user_input, conn['user'], conn['password'], conn['host']
+                        ))
 			response.outputs['response'].data = "Success"
 		except:
 			response.outputs['response'].data = "Fail"
 		return response
-	
-
-	
-
-
-
-
-
