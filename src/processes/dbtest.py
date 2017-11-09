@@ -3,7 +3,7 @@ import os
 import psycopg2
 from configparser import ConfigParser
 
-from pywps import Process, LiteralInput, ComplexInput, ComplexOutput, Format, FORMATS
+from pywps import Process, LiteralInput, LiteralOutput, ComplexInput, ComplexOutput, Format, FORMATS
 from pywps.configuration import get_config_value
 from pywps.validator.mode import MODE
 
@@ -17,12 +17,14 @@ class DbTest(Process):
                 mode=MODE.STRICT),
                 LiteralInput('buffer', 'Buffer size', data_type='float',
                 allowed_values=(0, 1, 10, (10, 10, 100), (100, 100, 1000)))
-				]
-				
-        outputs=[ComplexOutput('buff_out', 'Buffered file',
-                             supported_formats=[Format('application/gml+xml')])
-							 ]
-							 
+        ]
+
+        # outputs=[ComplexOutput('buff_out', 'Buffered file',
+        #                      supported_formats=[Format('application/gml+xml')])
+        # ]
+        outputs=[LiteralOutput('buff_out', 'Buffered table', data_type='string')
+        ]
+        
         super(DbTest, self).__init__(
             self._handler,
             identifier='DbTest',
@@ -35,6 +37,35 @@ class DbTest(Process):
             store_supported=True,            
             status_supported=True
         )
+
+    def unique_schema(self):
+        ### TODO: to be implemented
+        ### DbTest -> lower -> dbtest
+        ### dbtest + '_' + uuid (- -> _)
+        ### dbtest_46d30a3a_b265_11e7_a526_00221930c4ac
+        return 'public'
+
+    def dbconnect(self, dbname):
+        # try:
+        #     conn = psycopg2.connect("dbname={} user={} password={} host={}".format(
+        #         user_input,
+        #         get_config_value("db" , "user"), 
+        #         get_config_value("db" , "password"),
+        #         get_config_value("db" , "host"))
+        #     )
+        # except:
+        #     raise Exception("Database connection has not been established.")
+        return "dbname={} user={} password={} host={} active_schema={}".format(
+            user_input,
+            get_config_value("db" , "user"), 
+            get_config_value("db" , "password"),
+            get_config_value("db" , "host"),
+            unique_schema,
+        )
+
+    def store_output_db(self, layer):
+        ### TODO: to beimplemented, see #4
+        pass
     
     def _handler(self, request, response):
         from osgeo import ogr
@@ -75,14 +106,9 @@ class DbTest(Process):
 
         outSource.Destroy()
 
-        response.outputs['buff_out'].output_format = FORMATS.GML
-        response.outputs['buff_out'].file = out
+        self.store_output_db(outLayer)
         
-        try:
-            conn = psycopg2.connect("dbname={} user={} password={} host={}".format(
-			                        user_input, get_config_value("db" , "user"), 
-									get_config_value("db" , "password"), get_config_value("db" , "host")))
-        except:
-            raise Exception("Database connection has not been established.")
+        #        response.outputs['buff_out'].output_format = FORMATS.GML
+        response.outputs['buff_out'].data = '{}.{}.{}'.format(user_input, unique_schema(), 'buff_out')
 
         return response
