@@ -43,6 +43,8 @@ class DbTest(Process):
         ### DbTest -> lower -> dbtest
         ### dbtest + '_' + uuid (- -> _)
         ### dbtest_46d30a3a_b265_11e7_a526_00221930c4ac
+		
+		# hotovo - viz bakalarska_prace/skripty/sqlite
         return 'public'
 
     def dbconnect(self, dbname):
@@ -64,7 +66,7 @@ class DbTest(Process):
         )
 
     def store_output_db(self, layer):
-        ### TODO: to beimplemented, see #4
+        ### TODO: to be implemented, see #4
         pass
     
     def _handler(self, request, response):
