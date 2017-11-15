@@ -1,4 +1,4 @@
-FILE=pisl-jan-bp-2018
+FILE=jan-pisl-bp-2018
 
 all:
 	pdflatex $(FILE)
