@@ -102,11 +102,12 @@ class DbTest(Process):
 
         outSource.Destroy()
 
-        outSource = ogr.Open(out)
-        self.store_output_db(outSource.GetLayer())
-        outSource.Destroy()
+        for param in response.outputs.keys():
+            outSource = ogr.Open(out) # ???
+            self.store_output_db(outSource.GetLayer())
+            outSource.Destroy()
         
-        #        response.outputs['buff_out'].output_format = FORMATS.GML
-        response.outputs['buff_out'].data = '{}.{}.{}'.format(self.user_input, self.unique_schema(), 'buff_out')
+            #        response.outputs['buff_out'].output_format = FORMATS.GML
+            response.outputs[param].data = '{}.{}.{}'.format(self.user_input, self.unique_schema(), param)
 
         return response
