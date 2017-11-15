@@ -1,7 +1,7 @@
 import os
 
 import psycopg2
-import ogr, osr
+from osgeo import ogr, osr
 from configparser import ConfigParser
 
 from pywps import Process, LiteralInput, LiteralOutput, ComplexInput, ComplexOutput, Format, FORMATS
@@ -39,10 +39,9 @@ class DbTest(Process):
         )
 
     def unique_schema(self):       
-        uuid_ed = self.uuid.replace("-", "_")
-        identifier_lower = identifier.lower()
-        unique_schema = identifier_lower + "_" + uuid_ed
-        return 'public'
+        return '{}_{}'.format(self.identifier.lower(),
+                              self.uuid.replace("-", "_").lower()
+        )
 
     def dbconnect(self):
         return "dbname={} user={} password={} host={} active_schema={}".format(
