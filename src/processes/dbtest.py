@@ -1,12 +1,12 @@
 import os
 
 import psycopg2
+import ogr, osr
 from configparser import ConfigParser
 
 from pywps import Process, LiteralInput, LiteralOutput, ComplexInput, ComplexOutput, Format, FORMATS
 from pywps.configuration import get_config_value
 from pywps.validator.mode import MODE
-
 
 
 class DbTest(Process):
@@ -30,7 +30,7 @@ class DbTest(Process):
             identifier='DbTest',
             title='Testing database connection and Buffer process',
             abstract='The process connects to a database and also returns buffers around the input features using the GDAL library',
-            version='1.3.3.7',
+            version='1.0',
             profile='',
             inputs=inputs,
             outputs=outputs,
@@ -38,41 +38,31 @@ class DbTest(Process):
             status_supported=True
         )
 
-    def unique_schema(self):
-        ### TODO: to be implemented
-        ### DbTest -> lower -> dbtest
-        ### dbtest + '_' + uuid (- -> _)
-        ### dbtest_46d30a3a_b265_11e7_a526_00221930c4ac
-		
-		# hotovo - viz bakalarska_prace/skripty/sqlite
+    def unique_schema(self):       
+        uuid_ed = self.uuid.replace("-", "_")
+        identifier_lower = identifier.lower()
+        unique_schema = identifier_lower + "_" + uuid_ed
         return 'public'
 
-    def dbconnect(self, dbname):
-        # try:
-        #     conn = psycopg2.connect("dbname={} user={} password={} host={}".format(
-        #         user_input,
-        #         get_config_value("db" , "user"), 
-        #         get_config_value("db" , "password"),
-        #         get_config_value("db" , "host"))
-        #     )
-        # except:
-        #     raise Exception("Database connection has not been established.")
+    def dbconnect(self):
         return "dbname={} user={} password={} host={} active_schema={}".format(
-            user_input,
+            self.user_input,
             get_config_value("db" , "user"), 
             get_config_value("db" , "password"),
             get_config_value("db" , "host"),
-            unique_schema,
+            self.unique_schema,
         )
 
     def store_output_db(self, layer):
-        ### TODO: to be implemented, see #4
-        pass
+        connstr = self.dbconnect()
+        try:
+            dsc = ogr.Open("PG:" + connstr)
+            layer = dsc.CopyLayer(layer, "buff_out")
+        except:
+            raise Exception("Database connection has not been established.")
     
     def _handler(self, request, response):
-        from osgeo import ogr
-
-        user_input= request.inputs['dbname'][0].data    #co znamena [0]?
+        self.user_input= request.inputs['dbname'][0].data    #co znamena [0]?
         inSource = ogr.Open(request.inputs['poly_in'][0].file)
         inLayer = inSource.GetLayer()
         out = inLayer.GetName() + '_buffer'
@@ -103,7 +93,6 @@ class DbTest(Process):
             outLayer.CreateFeature(outFeature)
             outFeature.Destroy()  # makes it crash when using debug
             index += 1
-
             response.update_status('Buffering', 100*(index/featureCount))
 
         outSource.Destroy()
