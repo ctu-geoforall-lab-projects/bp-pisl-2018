@@ -1,4 +1,5 @@
 import os
+import logging
 
 import psycopg2
 from osgeo import ogr, osr
@@ -38,10 +39,11 @@ class DbTest(Process):
             status_supported=True
         )
 
-    def unique_schema(self):       
-        return '{}_{}'.format(self.identifier.lower(),
-                              self.uuid.replace("-", "_").lower()
-        )
+    def unique_schema(self):
+        # return '{}_{}'.format(self.identifier.lower(),
+        #                       str(self.uuid).replace("-", "_").lower()
+        # )
+        return 'public'
 
     def dbconnect(self):
         return "dbname={} user={} password={} host={} active_schema={}".format(
@@ -49,17 +51,20 @@ class DbTest(Process):
             get_config_value("db" , "user"), 
             get_config_value("db" , "password"),
             get_config_value("db" , "host"),
-            self.unique_schema,
+            self.unique_schema(),
         )
 
     def store_output_db(self, layer):
         connstr = self.dbconnect()
-        try:
-            dsc = ogr.Open("PG:" + connstr)
-            layer = dsc.CopyLayer(layer, "buff_out")
-        except:
+        #        try:
+        logging.debug("Connect string: {}".format(connstr))
+        dsc = ogr.Open("PG:" + connstr)
+        if dsc is None:
             raise Exception("Database connection has not been established.")
-    
+        layer = dsc.CopyLayer(layer, "buff_out", ['OVERWRITE=YES'])
+        if layer is None:
+            raise Exception("Writing output data to database failed.")
+
     def _handler(self, request, response):
         self.user_input= request.inputs['dbname'][0].data    #co znamena [0]?
         inSource = ogr.Open(request.inputs['poly_in'][0].file)
@@ -96,9 +101,11 @@ class DbTest(Process):
 
         outSource.Destroy()
 
-        self.store_output_db(outLayer)
+        outSource = ogr.Open(out)
+        self.store_output_db(outSource.GetLayer())
+        outSource.Destroy()
         
         #        response.outputs['buff_out'].output_format = FORMATS.GML
-        response.outputs['buff_out'].data = '{}.{}.{}'.format(user_input, unique_schema(), 'buff_out')
+        response.outputs['buff_out'].data = '{}.{}.{}'.format(self.user_input, self.unique_schema(), 'buff_out')
 
         return response
