@@ -1,4 +1,4 @@
-FILE=tereza-kulovana-bp-2017
+FILE=pisl-jan-bp-2018
 
 all:
 	pdflatex $(FILE)
