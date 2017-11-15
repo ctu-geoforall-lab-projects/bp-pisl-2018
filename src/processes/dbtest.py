@@ -40,18 +40,16 @@ class DbTest(Process):
         )
 
     def unique_schema(self):
-        # return '{}_{}'.format(self.identifier.lower(),
-        #                       str(self.uuid).replace("-", "_").lower()
-        # )
-        return 'public'
+        return '{}_{}'.format(self.identifier.lower(),
+                              str(self.uuid).replace("-", "_").lower()
+        )
 
     def dbconnect(self):
-        return "dbname={} user={} password={} host={} active_schema={}".format(
+        return "dbname={} user={} password={} host={}".format(
             self.user_input,
             get_config_value("db" , "user"), 
             get_config_value("db" , "password"),
             get_config_value("db" , "host"),
-            self.unique_schema(),
         )
 
     def store_output_db(self, layer):
@@ -61,7 +59,10 @@ class DbTest(Process):
         dsc = ogr.Open("PG:" + connstr)
         if dsc is None:
             raise Exception("Database connection has not been established.")
-        layer = dsc.CopyLayer(layer, "buff_out", ['OVERWRITE=YES'])
+        layer = dsc.CopyLayer(layer, "buff_out", ['OVERWRITE=YES',
+                                                  'SCHEMA={}'.format(self.unique_schema())]
+        )
+        # TODO: layer is valid even copying failed (schema do not exists)
         if layer is None:
             raise Exception("Writing output data to database failed.")
 
