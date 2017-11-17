@@ -40,9 +40,18 @@ class DbTest(Process):
         )
 
     def unique_schema(self):
-        return '{}_{}'.format(self.identifier.lower(),
-                              str(self.uuid).replace("-", "_").lower()
-        )
+        schema_name = '{}_{}'.format(self.identifier.lower(),
+                            str(self.uuid).replace("-", "_").lower()
+                            )
+        connstr = self.dbconnect()
+        conn = psycopg2.connect(connstr)
+        cur = conn.cursor()
+        query = 'CREATE SCHEMA IF NOT EXISTS {};'.format(schema_name) # must be saved as a variable. if used directly, throws an error: TypeError: not all arguments converted during string formatting' 
+        cur.execute(query)
+        conn.commit()
+        cur.close()
+        conn.close()
+        return schema_name
 
     def dbconnect(self):
         return "dbname={} user={} password={} host={}".format(
