@@ -18,7 +18,7 @@
 
 \newcommand{\Fbox}[1]{\fbox{\strut#1}}
 
-\usepackage[czech, english]{babel}	% použití češtiny, angličtiny
+\usepackage[english, czech]{babel}	% použití češtiny, angličtiny
 \usepackage[utf8]{inputenc}		% Kódování zdrojových souborů je UTF8
 
 \usepackage[square,sort,comma,numbers]{natbib}
@@ -74,9 +74,10 @@
 
 \usepackage[
   cvutstyle,          
-  bachelor           
+  bachelor,           
 ]{thesiscvut}
 
+\PassOptionsToPackage{english}{thesiscvut}
 
 \newif\ifweb
 \ifx\ifHtml\undefined % Mimo HTML.
@@ -93,8 +94,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Název práce
-\nazev{Možnosti integrace databázového úložiště v rámci frameworku PyWPS}
-{Database Output Storage Support in PyWPS Framework}
+\nazev{Database Output Storage Support in PyWPS Framework}
+{Možnosti integrace databázového úložiště v rámci frameworku PyWPS}
 
 %% Jméno a příjmení autora
 \autor{Jan}{Pišl}
@@ -121,12 +122,12 @@
 \misto{Praha}
 
 %% Abstrakt
-\abstrakt{Bude doplněno} {To be implemented.}
+\abstrakt{To be implemented.} {Bude doplněno}
 
 %% Klíčová slova
 \klicovaslova
-{PyWPS, databáze, Python, GDAL}
 {PyWPS, databases, Python, GDAL}
+{PyWPS, databáze, Python, GDAL}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -159,7 +160,7 @@
 
 % Vysázení listu zadani
 \stranka{}%
-	{\includegraphics[scale=0.28]{./pictures/zadani.jpg}}%\sffamily\Huge\centering\ }%ZDE VLOŽIT LIST ZADÁNÍ}%
+	{\includegraphics[scale=0.35]{./pictures/zadani.jpg}}%\sffamily\Huge\centering\ }%ZDE VLOŽIT LIST ZADÁNÍ}%
 	%{\sffamily\centering Z~důvodu správného číslování stránek}
 
 % Vysázení stránky s abstraktem
@@ -173,10 +174,7 @@
        }{%uprostred
        }{%dole
        \sffamily
-	\begin{flushleft}
-		\large
-		\MakeUppercase{Poděkování}
-	\end{flushleft}
+	
 	\vspace{1em}
 		%\noindent
 	\par\hspace{2ex}
@@ -193,10 +191,11 @@
 %\seznamtabulek
 
 % jednotlivé kapitoly
-\include{1-uvod}
-%\include{2-teorie}
-%\include{3-technologie}
-%\include{5-zaver}
+\include{1-introduction}
+\include{2-theoretical_part}
+\include{3-technologies}
+\include{4-practical_part}
+\include{5-conclusion}
 
 % Vysázení seznamu zkratek
 %\include{zkratky}
