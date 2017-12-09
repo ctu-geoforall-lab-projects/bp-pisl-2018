@@ -15,7 +15,7 @@ from pywps.validator.mode import MODE
 class ProcessTwoOutputs(Process):
     def __init__(self):
         inputs=[LiteralInput('db_section', 'Database section', data_type='string'),
-                ComplexInput('buff_in', 'Input vector file',
+                ComplexInput('poly_in', 'Input vector file',
                              supported_formats=[Format('application/gml+xml')],
                              mode=MODE.STRICT),
                 LiteralInput('buffer', 'Buffer size', data_type='float',
@@ -27,7 +27,7 @@ class ProcessTwoOutputs(Process):
         
         super(ProcessTwoOutputs, self).__init__(
             self._handler,
-            identifier='process-two-outpus',
+            identifier='process-two-outputs',
             title='Process with two vector outputs',
             abstract='Buffers around the input features and compute centroids using the GDAL library',
             version='1.0',
@@ -42,7 +42,7 @@ class ProcessTwoOutputs(Process):
         self.dbsection= request.inputs['db_section'][0].data
         self.setOutputDbStorage(self.dbsection)        
         
-        inSource = ogr.Open(request.inputs['buff_in'][0].file)
+        inSource = ogr.Open(request.inputs['poly_in'][0].file)
         inLayer = inSource.GetLayer()
 
         driver = ogr.GetDriverByName('GML')
@@ -62,10 +62,10 @@ class ProcessTwoOutputs(Process):
                                 outCentr,
                                 ["XSISCHEMAURI=\
                             http://schemas.opengis.net/gml/2.1.2/feature.xsd"])
-        outLayerC = outSource.CreateLayer(outCentr, None, ogr.wkbUnknown)
+        outLayerC = outSourceC.CreateLayer(outCentr, None, ogr.wkbUnknown)
         
         # for each feature
-        featureCount = inLayerB.GetFeatureCount()
+        featureCount = inLayer.GetFeatureCount()
         index = 0
 
         bsize = float(request.inputs['buffer'][0].data)
