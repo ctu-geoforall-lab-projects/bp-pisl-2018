@@ -14,10 +14,9 @@ In case of WPS, a process is a geospatial operation, calculation or a model of a
 
 
 \begin{figure}[H] \centering
-      \includegraphics[width=200pt]{./pictures/wps_conceptual_model.png}
-      \caption[QGIS logo]{WPS conceptual model (zdroj:
-\href{https://www.qgis.org/en/_downloads/qgis-logo.png}{QGIS})}
-      \label{fig:qgis}
+      \includegraphics[width=300pt]{./pictures/wps_conceptual_model.png}
+      \caption[QGIS logo]{WPS conceptual model (source:WPS)}
+      \label{fig:WPS}
   \end{figure}
 
 
@@ -28,10 +27,36 @@ There are two basic capabilities of a WPS server. It provides the process and re
 
 \begin{itemize}
 \item \textbf{Process execution}
-\end{itemize}
 
-There are two ways in which a process can be executed. If the complexity of the process is lower and the completion time is relatively short [3] the execution is run synchronously. After the execute request is sent by the client, the WPS server starts executing the process while the client remains connected to the server for the whole time of the execution process. Only when the process has finished and the output has been delivered, the connection terminates.\par
+
+There are two ways in which a process can be executed. If the complexity of the process is lower, the connection is stable and the completion time is relatively short [3] the execution is run synchronously. After the execute request is sent by the client, the WPS server starts executing the process while the client remains connected to the server for the whole time of the execution process. Only when the process has finished and the output has been delivered, the connection terminates.\par
 The asynchronous execution, on the other hand, better suits for complex processes that are expected to take longer time to finish. When the client requests process excecution the server responds with a status information message that confirms the request was accepted and the process will be run. The message also includes a unique processing job identifier. Then, the connection is interrupted. At this time, the client can send the GetStatus request with the job identifier to get information on how the process has progressed. Once the process has finished, the client can access the output data using the GetResult request with the job identifier. The asynchronous execution can be also useful in case of unstable connection that prevents synchronous execution to successfully run.
+
+\item \textbf{Available operations}
+
+\begin{itemize}
+
+\item \textbf{GetCapabilities}
+GetCapabilities is a mandatory operation for any OGC Web service. For WPS, it is one of the three basic operations that are available for any process. There is no input parameter required. Once the request is sent, the server returns a document that includes information about the service provider, a list of operations available for a WPS server and a list of all the processes offered by the service.
+
+\item \textbf{DescribeProcess}
+DescribeProcess is another basic operation. The only required input is the name (or a list of names) of the process to be described. If the process offers description in multiple languages, a language parameter can be added to the request. It returns a document with all the characteristics of the process and a description of the input parameters. It also describes the output format of the process.
+
+\item \textbf{Execute}
+Execute is the key operation for any OGC WPS service. It allows processes that are implemented by a server to be run. It requires input parameter values as specified by the service. These can be either values (numerical or other) that are included directly in the request or references to other recources that are accessible as local files or through the web. Analogously, the outputs of the execute operation can be both included in the response XML document or can be stored locally or on the web. In case of anyschronous operation, it also returns a unique JobID that the client uses to enquire about the process status and results.
+
+\item \textbf{GetStatus}
+GetStatus is an operation only used for asynchronous processes. After the Execute request has been accepted, the client can use this operation to query status information of the processing job, using a JobID returned by the Execute response. This operation is only available in the WPS 2.0.0 version.
+
+\item \textbf{GetResult}
+GetResult is the final operation used for asynchronous processes that is to be used after the GetStatus operation reports the operation has finished. The input parameter is the unique JobID. Then, GetResult fetches the results of the process as described in the Execute section. This operation is only available in the WPS 2.0.0 version.
+
+\item \textbf{Dismiss}
+Dismiss allows the client to let the server know the result of the process is no longer wanted. In such case, all the resources corresponding to the JobID sent in the Dismiss request may be deleted. If the process is still running, it may be cancelled. This operation is only available in the WPS 2.0.0 version.
+
+
+\end{itemize}
+\end{itemize}
 
 
 \subsection{OGC WPS Implementations}
@@ -39,28 +64,77 @@ The asynchronous execution, on the other hand, better suits for complex processe
 
 
 
-
 \begin{itemize}
 \item \textbf{PyWPS}
+
+\begin{figure}[H] \centering
+      \includegraphics[width=200pt]{./pictures/pywps.png}
+      \caption[PyWPS logo]{PyWPS (source:
+\href{http://pywps.org/images/pywps.png}{PyWPS})}
+      \label{fig:PyWPS}
+  \end{figure}
+
+PyWPS is a server side implementation of the OGC Web Processing Service (OGC WPS) standards 1.0.0 and 2.0.0. It is written in the Python programming language, it runs on Python 2.7, 3.3 or higher and it is tested and developed on Linux. For configuration, a configuration file, using the ConfigParser format, is used. It supports a variety of geospatial software and tools such as GRASS GIS, R Project or the GDAL library.  Synchronous and asynchronuous invocation is supported. As for request encoding, two options are available - key-value pairs (using HTTP-GET) or XML payload (using HTTP-POST). Every process that is to be deployed on the server is defined as a class and has several mandatory parameters. The key parameter called "handler" gets invoked every time there is an incoming request, it accepts the request and returns a response. 
+
+
+In 2016, it upgraded from PyWPS 3 to PyWPS 4. Some of the more significant changes include every input being considered a list of inputs and all inputs having file, data and stream attributes. These attributes allow better manipulation with data. 
 	
   
 	
-\item \textbf{52°North WPS}
-	
+
   
 
-\item \textbf{ZOO Project}
+
+\item \textbf{ZOO-Project}
+
+\begin{figure}[H] \centering
+      \includegraphics[width=200pt]{./pictures/zoo.png}
+      \caption[ZOO-Project logo]{ZOO-Project (source:ZOO-Project)}
+      \label{fig:ZOO-Project}
+  \end{figure}
+
+The ZOO project (written in C, Python and JavaScript) is an open source WPS platform that consists of several components.  The core processing engine, ZOO-Kernel, is a WPS implementation written in C, that implements the OGC WPS standards 1.0.0 and 2.0.0. A significant advantage over other WPS implementations is that it is written in a valid form of multiple programming languages, which performs the same operations independent of the programming language used to compile or interpret it. It runs on Mac OSX, Linux and Microsoft Windows operating systems. It uses a ConfigParses styled configuration file.
+
+ZOO-services offers a rich collection of ready-to-use services that are built on open source libraries such as GDAL or GRASS GIS. ZOO-API allows for creation of new services in one of five programming languages and it also offers easy conversion of vector formats.
+
+ZOO-API is a server-side library written in JavaScript for creation and chaining services. ZOO-Client is a simple client-side JavaScript API for interacting with WPS from web applications. It allows to build WPS requests and send them to a WPS server. It also provides functions to easily parse the output XML responses.
+
+
+\item \textbf{52°North WPS}
+
+\begin{figure}[H] \centering
+      \includegraphics[width=200pt]{./pictures/52n.png}
+      \caption[52 North logo]{52 North (source:52 North)}
+      \label{fig:52 North}
+  \end{figure}
+
+52°North WPS is a part of the 52°North open source software initiative. Located in Germany, they aim is to foster innovation in the field of Geoinformatics through a collaborative process. As a part of this inititiave, the 52°North WPS is an implementation of the OGC WPS standard (version 1.0.0) and it is written in the Java programming language. It can be run under Linux or Microsoft Windows operating systems. As for the WPS invocation methods, it supports both synchronous and asynchronous invocation, HTTP-GET and HTTP-POST. As for the WPS datatypes, it supports GeoTIFF, Shapefile, KML, WKT and others. The configuration is based on a XML file.
 	
 \end{itemize}
   
 
-
 \subsection{ESRI Web Processing}
 
-\section{Geodatabases}
+\begin{figure}[H] \centering
+      \includegraphics[width=200pt]{./pictures/esri.png}
+      \caption[ESRI logo]{ESRI (source:ESRI)}
+      \label{fig:ESRI}
+  \end{figure}
+
+ESRI is an international company oriented on desktop and mobile GIS software, geodatabases and web GIS. Founded in 1969, it is the leading company in the global GIS market. It offers a variety of GIS products, including ArcGIS for Desktop, ArcGIS Online or ArcGIS for Mobile. 
+
+It allows services created within the ArcGIS software to be published and shared online on another ESRI's platform, ArcGIS Server. On ArcGIS Server, these services can be stored and accessed by other users. They can be also implemented alongside with maps, which can also be created in other ArcGIS software and then published online, into online web applications. Users can also take advantage of the Web App Builder feature and of many templates that simplify creating applications.
+
+By default, ESRI software does not follow the OGC WPS standards. However, when publishing a geoprocessing service in ArcGIS Desktop, there is a possibility to enable the WPS capability. Then, the service published is compliant with the OGC WPS 1.0.0 specifications.
+
+\section{Spatial Databases}
+
+
 
 \begin{itemize}
 \item \textbf{PostGIS}
+
+
 	
 \item \textbf{Oracle Spatial and Graph}
 %Oracle Spatial and Graph, formerly Oracle Spatial
