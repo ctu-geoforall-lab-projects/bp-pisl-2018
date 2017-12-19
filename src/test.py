@@ -3,6 +3,8 @@
 import requests
 import xml.etree.ElementTree as ET
 
+from osgeo import ogr
+
 def parse_string(value):
     if len(value.split(sep=".")) != 3:
         raise Exception("Table name does not consist of 3 parts separated by a dot.")
@@ -27,10 +29,10 @@ def check_output(value, refcount, reftype):
 
     dsn = ogr.Open(get_connstr())
     if dsn is None:
-        raise ...
+        raise Exception("")
     lyr = dsn.GetLayerByName('{}.{}'.format(schema, table))
     if lyr is None:
-        raise ...
+        raise Exception("")
     count = lyr.GetFeatureCount()
     if count != refcount:
         raise None
@@ -38,9 +40,9 @@ def check_output(value, refcount, reftype):
 
 def get_refcount(uri):
     dsn = ogr.Open('/vsicurl/{}'.format(data))
-    ...
+    # ...
     lyr = dsn.GetLayer()
-    ..
+    # ...
 
     return lyr.GetFeatureCount()
     
@@ -56,12 +58,12 @@ def run_process(URL, refcount):
 
     if identifier != 'process-no-output':
         parse_string(value)
-        check_output(value, refcount, ogr.wkbPolygon)
+        #check_output(value, refcount, ogr.wkbPolygon)
         
     if identifier == 'process-two-outputs':
         value2 = get_value(root, idx=1)
         parse_string(value2)
-        check_output(value, refcount, ogr.wkbPoint)
+        #check_output(value, refcount, ogr.wkbPoint)
 
 if __name__ == "__main__":
     data = "http://127.0.0.1:5000/static/data/points.gml"
