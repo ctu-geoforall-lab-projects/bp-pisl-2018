@@ -129,18 +129,71 @@ By default, ESRI software does not follow the OGC WPS standards. However, when p
 
 \section{Spatial Databases}
 
-
-
 \begin{itemize}
 \item \textbf{PostGIS}
 
+\begin{figure}[H] \centering
+      \includegraphics[width=200pt]{./pictures/postgis.png}
+      \caption[PostGIS logo]{PostGIS (source:PostGIS)}
+      \label{fig:PostGIS}
+  \end{figure}
+  
+PostGIS is an open-source spatial database extension for PostgreSQL. PostgreSQL is a widely-used object-relational database management system. PostGIS adds support for geographic objects according to the OGC Simple Features for SQL specification. 
 
+PostgreSQL and PostGIS use the client/server architecture. When a client makes a request (typically an SQL statement), there is a server that accepts and evaluates it. The server itself is then responsible for updating (or, generally, changing in any way) the database file. Two of the most significant advantages of PostgreSQL over other RDBMSs are its high standard compliance and extensibility. It allows "stored procedures" to be created and saved to simplify complex operations that are frequently repeated. 
+
+In a study that compared PostGIS with Oracle Spatial, PostGIS  was found to perform faster when accessing and querying data.[1]
+
+
+
+[1]http://csjournals.com/IJCSC/PDF7-2/16.%20Deepika.pdf
 	
 \item \textbf{Oracle Spatial and Graph}
 %Oracle Spatial and Graph, formerly Oracle Spatial
+
+
+\begin{figure}[H] \centering
+      \includegraphics[width=200pt]{./pictures/oracle.png}
+      \caption[Oracle logo]{Oracle (source:Oracle)}
+      \label{fig:Oracle}
+  \end{figure}
+  
+  
+The Oracle Spatial and Graph is an extension of the Oracle Database that allows managing geographic data in a native type within an Oracle database. It is also a client-server service but unlike PostGIS, it is proprietary. The spatial features extend Oracle Locator, a standard feature of the Oracle Database distribution. Oracle Locator provides basic functions and services in Oracle Spatial, however, it lacks more advanced functions. Oracle Spatial and Graph supports large-scale Geographic Information Systems, provides Spatial Web services and generally is designed for complex spatial data management and analysis.
+
 	
 \item \textbf{SpatiaLite}
 
-\item \textbf{ArcSDE Geodatabase (ESRI)}
+\begin{figure}[H] \centering
+      \includegraphics[width=200pt]{./pictures/spatialite.png}
+      \caption[SpatialLite logo]{SpatialLite (source:SpatialLite)}
+      \label{fig:SpatialLite}
+  \end{figure}
+  
+SpatiaLite is a lightweight library that extends the SQLite database management system so it provides support for spatial data. Unlike the Oracle and PostgreSQL, SQLite is designed as a file-based database. It means that, unlike server-based databases, by using SQL expressions a user updates the file directly. Therefore, a file-based database must be stored in the local file system. As a consequence, SQLite is very fast and efficient for standard operations but is not optimized for multi-user applications or for large-scale operations. SQLite (and SpatiaLite) is open-source.
+
+\item \textbf{ArcSDE \& Geodatabase (ESRI)}
+
+\begin{figure}[H] \centering
+      \includegraphics[width=200pt]{./pictures/arcsde.png}
+      \caption[ArcSDE logo]{ArcSDE (source:ArcSDE)}
+      \label{fig:ArcSDE}
+  \end{figure}
+	
+ESRI is a supplier of a wide range of GIS software, including web GIS services, desktop and mobile applications and geodatabase management systems. Data used, produced or derived from ESRI software is stored in geodatabases, that is defined by ESRI as "a collection of geographic datasets of various types held in a common file system folder, a Microsoft Access database, or a multiuser relational DBMS."[2] As the definition suggests, ESRI distinguishes between three conceptually different types of geodatabases, depending on the scale of the data, requirements of the client, operating system and other factors.
+
+
+In its simplest form, an ESRI geodatabase can be a collection of GIS data stored as files in a folder within the standard file system. This is called a file geodatabase and is intended for single users and small workgroups. Personal geodatabase is another type of geodatabase, also designed to be used by individuals or small workgroups. It uses the Microsoft Access database management system and therefore is only available on the Microsoft Windows operating system. 
+
+
+The final and most complex type of geodatabase is the enterprise geodatabase. Unlike the previous two, it is designed to be used by multiple users simultaneously and for large datasets. It works with various DBMS storage models, such as Oracle, PostgreSQL or SQL Server using the ArcSDE technology. ArcSDE is a proprietary software that enables spatial data to be stored in DBMS. The key advantage is that, as an application server, ArcSDE allows the datasets to be available to multiple users for viewing, querying or editing at the same time.[3]
+
+
+
+[2]http://desktop.arcgis.com/en/arcmap/10.3/manage-data/geodatabases/what-is-a-geodatabase.htm
+[3]http://desktop.arcgis.com/en/arcmap/10.3/manage-data/geodatabases/types-of-geodatabases.htm
+	
 	
 \end{itemize}
+
+
