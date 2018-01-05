@@ -51,9 +51,9 @@ def check_output(value, refcount, reftype):
     if count != refcount:
         raise Exception("The number of elements written to the database is different from the number of elements in the input file.")
     # type vs reftype
-    #type = ogr.CreateGeometryFromWkb(lyr)
-    #if type != reftype:
-    #    raise Exception("Geometry of the  different from the number of elements written to the database.")
+    type = ogr.CreateGeometryFromWkb(lyr)
+    if type != reftype:
+        raise Exception("Geometry of the  different from the number of elements written to the database.")
 
 
 def get_refcount(uri):
