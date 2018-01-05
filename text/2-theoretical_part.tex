@@ -25,43 +25,29 @@ In case of WPS, a process is a geospatial operation, calculation or a model of a
 
 There are two basic capabilities of a WPS server. It provides the process and retrieves the process description and it controls and monitors processing jobs. Job is an instance of a process – it is an object created for a particular process execution. Job control is the ability to execute, dismiss or delete a job.
 
-\begin{itemize}
-\item \textbf{Process execution}
+\subsection{Process execution}
 
 
 There are two ways in which a process can be executed. If the complexity of the process is lower, the connection is stable and the completion time is relatively short [3] the execution is run synchronously. After the execute request is sent by the client, the WPS server starts executing the process while the client remains connected to the server for the whole time of the execution process. Only when the process has finished and the output has been delivered, the connection terminates.\par
 The asynchronous execution, on the other hand, better suits for complex processes that are expected to take longer time to finish. When the client requests process excecution the server responds with a status information message that confirms the request was accepted and the process will be run. The message also includes a unique processing job identifier. Then, the connection is interrupted. At this time, the client can send the GetStatus request with the job identifier to get information on how the process has progressed. Once the process has finished, the client can access the output data using the GetResult request with the job identifier. The asynchronous execution can be also useful in case of unstable connection that prevents synchronous execution to successfully run.
 
-\item \textbf{Available operations}
+\subsection{Available operations}
 
-\begin{itemize}
+\textbf{GetCapabilities.} A mandatory operation for any OGC Web service. For WPS, it is one of the three basic operations that are available for any process. There is no input parameter required. Once the request is sent, the server returns a document that includes information about the service provider, a list of operations available for a WPS server and a list of all the processes offered by the service.
 
-\item \textbf{GetCapabilities}
-GetCapabilities is a mandatory operation for any OGC Web service. For WPS, it is one of the three basic operations that are available for any process. There is no input parameter required. Once the request is sent, the server returns a document that includes information about the service provider, a list of operations available for a WPS server and a list of all the processes offered by the service.
+\noindent \textbf{DescribeProcess.} Another basic operation. The only required input is the name (or a list of names) of the process to be described. If the process offers description in multiple languages, a language parameter can be added to the request. It returns a document with all the characteristics of the process and a description of the input parameters. It also describes the output format of the process.
 
-\item \textbf{DescribeProcess}
-DescribeProcess is another basic operation. The only required input is the name (or a list of names) of the process to be described. If the process offers description in multiple languages, a language parameter can be added to the request. It returns a document with all the characteristics of the process and a description of the input parameters. It also describes the output format of the process.
+\noindent \textbf{Execute.} The key operation for any OGC WPS service. It allows processes that are implemented by a server to be run. It requires input parameter values as specified by the service. These can be either values (numerical or other) that are included directly in the request or references to other recources that are accessible as local files or through the web. Analogously, the outputs of the execute operation can be both included in the response XML document or can be stored locally or on the web. In case of anyschronous operation, it also returns a unique JobID that the client uses to enquire about the process status and results.
 
-\item \textbf{Execute}
-Execute is the key operation for any OGC WPS service. It allows processes that are implemented by a server to be run. It requires input parameter values as specified by the service. These can be either values (numerical or other) that are included directly in the request or references to other recources that are accessible as local files or through the web. Analogously, the outputs of the execute operation can be both included in the response XML document or can be stored locally or on the web. In case of anyschronous operation, it also returns a unique JobID that the client uses to enquire about the process status and results.
+\noindent \textbf{GetStatus.} An operation only used for asynchronous processes. After the Execute request has been accepted, the client can use this operation to query status information of the processing job, using a JobID returned by the Execute response. This operation is only available in the WPS 2.0.0 version.
 
-\item \textbf{GetStatus}
-GetStatus is an operation only used for asynchronous processes. After the Execute request has been accepted, the client can use this operation to query status information of the processing job, using a JobID returned by the Execute response. This operation is only available in the WPS 2.0.0 version.
+\noindent \textbf{GetResult.} The final operation used for asynchronous processes that is to be used after the GetStatus operation reports the operation has finished. The input parameter is the unique JobID. Then, GetResult fetches the results of the process as described in the Execute section. This operation is only available in the WPS 2.0.0 version.
 
-\item \textbf{GetResult}
-GetResult is the final operation used for asynchronous processes that is to be used after the GetStatus operation reports the operation has finished. The input parameter is the unique JobID. Then, GetResult fetches the results of the process as described in the Execute section. This operation is only available in the WPS 2.0.0 version.
-
-\item \textbf{Dismiss}
-Dismiss allows the client to let the server know the result of the process is no longer wanted. In such case, all the resources corresponding to the JobID sent in the Dismiss request may be deleted. If the process is still running, it may be cancelled. This operation is only available in the WPS 2.0.0 version.
-
-
-\end{itemize}
-\end{itemize}
-
+\noindent \textbf{Dismiss.} Allows the client to let the server know the result of the process is no longer wanted. In such case, all the resources corresponding to the JobID sent in the Dismiss request may be deleted. If the process is still running, it may be cancelled. This operation is only available in the WPS 2.0.0 version.
 
 \subsection{OGC WPS Implementations}
 
-
+%% ML: itemize -> subsection
 
 
 \begin{itemize}
