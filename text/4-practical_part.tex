@@ -116,7 +116,7 @@ Another snippet of code must be added in (at?) a specific location (after the re
 
 If the condition is met (i.e. the object - a process - has an attribute called "writer") the second command is executed and the "store" method is called.
 
-[3] https://docs.python.org/3.6/library/functions.html#hasattr
+[3] https://docs.python.org/3.6/library/functions.html\#hasattr
 
 
 \item \textbf{Configuration file changes}
@@ -127,10 +127,10 @@ There may be any number of sections, each can be (pointing - da se to pouzit?) t
 
 \item \textbf{Changes in the process}
 
-%doplnit
+\begin{verbatim}
         dbsection = request.inputs['db_section'][0].data
         self.setOutputDbStorage(dbsection)
-        
+\end{verbatim}
       
 \end{itemize}
 
