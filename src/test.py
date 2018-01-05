@@ -39,21 +39,16 @@ def check_output(value, refcount, reftype):
     dsn = ogr.Open(get_connstr())
     if dsn is None:
         raise Exception("Reading data failed.")
-    print('{}.{}'.format(schema, table))
-    print('{}.{}'.format(idsch, table))
-    #prepsal jsem '{}.{}'.format(schema, table) na '{}.{}'.format(idsch, table), protoze schema (viz QGIS) je cely ten idsch
-    lyr = dsn.GetLayerByName('{}.{}'.format(idsch, table))
+    lyr = dsn.GetLayerByName('{}.{}'.format(idsch.replace('"', ''), table.replace('"', '')))
     if lyr is None:
-        raise Exception("Could not find the layer.")
+        raise Exception("Could not find the layer {}.{}.".format(idsch, table))
     count = lyr.GetFeatureCount()
-    print(count)
-    print(refcount)
     if count != refcount:
-        raise Exception("The number of elements written to the database is different from the number of elements in the input file.")
+        raise Exception("Layer {}.{}: number of features differs (database: {} vs. input file: {})".format(idsch, table, count, refcount))
     # type vs reftype
-    type = ogr.CreateGeometryFromWkb(lyr)
-    if type != reftype:
-        raise Exception("Geometry of the  different from the number of elements written to the database.")
+    gtype = lyr.GetGeomType()
+    if gtype != reftype:
+        raise Exception("Layer {}.{}: geometry type differs (database: {} vs. input file: {})".format(idsch, table, gtype, reftype))
 
 
 def get_refcount(uri):
@@ -84,7 +79,7 @@ def run_process(URL, refcount):
     if identifier == 'process-two-outputs':
         value2 = get_value(root, idx=1)
         parse_string(value2)
-        check_output(value, refcount, ogr.wkbPoint)
+        check_output(value2, refcount, ogr.wkbPoint)
 
 if __name__ == "__main__":
     data = "http://127.0.0.1:5000/static/data/points.gml"
