@@ -202,8 +202,8 @@
 
 %% Oznaceni vedouciho prace
 \ifTT@cvutstyle
-	\newcommand\garanttext@cz{Vedouc\'{\i} pr\'{a}ce:}
-	\newcommand\garanttext@en{Supervisor}
+	\newcommand\garanttext@cz{Supervisor:}
+	\newcommand\garanttext@en{Supervisor:}
 \else
 	\ifTT@diploma
 	  \newcommand\garanttext@cz{Vedouc\'{\i} diplomov\'{e} pr\'{a}ce:}
@@ -474,7 +474,7 @@ ethical principles of preparation of university final projects.}
 
 \addto\captionsenglish{%
    \def\tablename{Tab.}%
-   \def\figurename{Obrázek}%
+   \def\figurename{Figure}%
 % %  \def\refname{Pouité zdroje}
 }%
 
@@ -528,7 +528,7 @@ ethical principles of preparation of university final projects.}
 }
 
 \addto\captionsenglish{%
-   \def\contentsname{Obsah}%
+   \def\contentsname{Contents}%
 %   \def\listoftables{Seznam tabulek}%
 }%
 
@@ -576,9 +576,9 @@ ethical principles of preparation of university final projects.}
 \ifTT@cvutstyle
 	\newenvironment{seznamzkratek}[1]{
 		\cleardoublepage
-		\chapter*{Seznam zkratek}
-		\addcontentsline{toc}{chapter}{Seznam zkratek}
-		\markboth{\MakeUppercase {Seznam zkratek}}{}
+		\chapter*{List of Acronyms}
+		\addcontentsline{toc}{chapter}{List of Acronyms}
+		\markboth{\MakeUppercase {List of Acronyms}}{}
 		\begin{acronym}[#1]
 	}{
 		\end{acronym}
@@ -592,7 +592,7 @@ ethical principles of preparation of university final projects.}
 	{\end{thebibliography} \newpage}
 	
 %% Predefinovani seznamu priloh
-\newcommand\loaname{Seznam p\v{r}\'{\i}loh}
+\newcommand\loaname{Appendix}
 \newcommand\seznampriloh{%
   \chapter*{		%SEZNAM PřÍLOH}
   \loaname
@@ -1154,7 +1154,7 @@ ethical principles of preparation of university final projects.}
 			\parbox[t][5mm][t]{\linewidth}{%
 				\raggedright%
 				\sffamily \large %
-					\MakeLowercase{\@mesic} \@rok \hfill {\@autor@jmeno}
+					{\@mesic} \@rok \hfill {\@autor@jmeno}
 						\MakeUppercase{\@autor@prijmeni}
 			}
 		\end{minipage}%
