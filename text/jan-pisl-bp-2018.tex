@@ -21,6 +21,7 @@
 \usepackage[czech, english]{babel}	% použití češtiny, angličtiny
 \usepackage[utf8]{inputenc}		% Kódování zdrojových souborů je UTF8
 
+
 \usepackage[square,sort,comma,numbers]{natbib}
 
 \usepackage{caption}
@@ -39,6 +40,8 @@
 \usepackage{transparent}
 \usepackage{wrapfig}
 \usepackage{float} 
+\usepackage{listings}
+
 
 \usepackage{cmap}           
 \usepackage[T1]{fontenc}    
@@ -103,25 +106,27 @@
 \garant{Ing.~Martin~Landa,~Ph.D.}
 
 %% Označení programu studia
-\programstudia{Geodézie a~kartografie}{}
+\programstudia{Geodesy and Cartography}{}
 
 %% Označení oboru studia
-\oborstudia{Geodézie, kartografie a~geoinformatika}{}
+\oborstudia{Geodesy, Cartography and Geoinformatics}{}
 
 %% Označení ústavu
-\ustav{Katedra geomatiky}{}
+\ustav{Department of Geomatics}{}
 
 %% Rok obhajoby
 \rok{2018}
 
 %Mesic obhajoby
-\mesic{leden}
+\mesic{February}
 
 %% Místo obhajoby
-\misto{Praha}
+\misto{Prague}
 
 %% Abstrakt
-\abstrakt{To be implemented.} {Bude doplněno}
+\abstrakt{The aim of this bachelor thesis is to develop (design) an extension to the PyWPS framework that would enable (allow) output data derived from individual PyWPS processes to be stored in a remote database storage. PyWPS is an implementation of the OGC Web Processing Service standard. Currently, output data are (nebo is? tady je to spis mnozny cislo) saved in a standard file format on the server from which the client can download them (it). The integration of a database output storage can make more effective both transfering data to the client
+and its further processing and analysis. Like PyWPS, the extension is written in the Python programming language. As for the database management system, PostgreSQL and PostGIS were used. PostGIS is an extension that adds support for geographic objects to PostgresSQL. (The problem of) implementation of this extension within (in the) the PyWPS source code is also adressed in this thesis.}
+{Cílem této bakalářské práce je navrhnout rozšíření frameworku PyWPS, jenž by umožnilo využít vzdálené databázové úložiště pro ukládání výstupů jednotlivých procesů. PyWPS je implementace standardu OGC Web Processing Service. Výstupní data jsou momentálně ukládána v souborových formátech na výpočetním serveru, odkud si je klient může stáhnout. Integrace databázového úložiště může zefektivnit přesun výstupních dat ke klientovi i jejich následnou správu. Rozšíření je - stejně jako framework PyWPS - napsáno v programovacím jazyce Python. Jako vhodný databázový systém byl zvolen PostgreSQL, respektive jeho nadstavba PostGIS, která přidává podporu pro geografické objekty. Součástí práce je i návrh implementace tohoto rozšíření do zdrojového kódu PyWPS.}
 
 %% Klíčová slova
 \klicovaslova
@@ -177,7 +182,7 @@
 	\vspace{1em}
 		%\noindent
 	\par\hspace{2ex}
-	{Bude doplněno.}
+	{I would like to thank my supervisor, Ing. Martin Landa, PhD., for his guidance, advice and patience.}
 }
 
 % Vysázení obsahu
@@ -197,11 +202,11 @@
 \include{5-conclusion}
 
 % Vysázení seznamu zkratek
-%\include{zkratky}
+\include{zkratky}
 
 % Literatura
 \nocite{*}
-\def\refname{Literatura}
+\def\refname{Bibliography}
 \bibliographystyle{mystyle}
 \bibliography{literatura}
 
@@ -211,10 +216,10 @@
 \prilohy
 
 % Vysázení seznamu příloh
-%\seznampriloh
+\seznampriloh
 
 % Vložení souboru s přílohami
-%\include{prilohy}
+\include{prilohy}
 
 % Konec dokumentu
 \end{document}
