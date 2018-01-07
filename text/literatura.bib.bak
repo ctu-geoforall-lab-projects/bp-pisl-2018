@@ -1,0 +1,109 @@
+ %**********************************************************************************************************************
+
+@Book{diveintopython,
+  title=	{Dive Into Python},
+  author=	{Mark Pilgrim},
+  address = {Apex},
+  publisher=	{Apress},
+  year=		{2004},
+  isbn =	{978-1-59059-356-1},
+}
+
+@Online{wpsstandard,
+  key	=	 {zweb:wpsstandard},
+  title  =	{Open Geospatial - WPS standard},
+  cited =        {2018-01-04},
+  url   =	{http://www.opengeospatial.org/standards/wps},
+}
+
+@Online{apache,
+  key	=	 {zweb:apache},
+  title  =	{Apache2 httpd server Connection Timeout default value},
+  cited =  	{2018-01-02},
+  url   =	{http://httCopd.apache.org/docs/2.4/mod/core.html#timeout},
+}
+
+@Online{pywps,
+  key	=	{zweb:pywps},
+  title  =	{PyWPS documentation},
+  cited =  	{2018-01-02},
+  url   =	{https://pywps.readthedocs.io/en/master/},
+}
+
+@Online{zoo,
+  key	=	{zweb:zoo},
+  title  =	{ZOO-Kernel compliance},
+  cited =  	{2018-01-04},
+  url   =	{http://www.zoo-project.org/docs/kernel/what.html#compliant},
+}
+
+@Online{north,
+  key	=	{zweb:north},
+  title  =	{52 North Web Processing Service features},
+  cited =  	{2018-01-06},
+  url   =	{https://52north.org/software/software-projects/wps/},
+}
+
+@Online{zoodb,
+  key	=	 {zweb:zoodb},
+  title  =	{ZOO-project database backend},
+  cited =    {2018-01-06},
+  url   =	{http://www.zoo-project.org/docs/install/installation.html#zoo-create-db-backend},
+}
+
+@Online{zoodbsec,
+  key	=	 {zweb:zoodbsec},
+  title  =	{ZOO-project database section},
+  cited =   {2018-01-06},
+  url   =	{http://www.zoo-project.org/docs/kernel/configuration.html#database-section},
+}
+
+@Online{arcgiswps,
+  key	=	 {zweb:arcgiswps},
+  title  =	{ESRI WPS compliance},
+  cited =    {2018-01-06},
+  url   =	{http://server.arcgis.com/en/server/latest/publish-services/linux/wps-services.htm},
+}
+
+@Online{postgis,
+  key	=	 {zweb:postgis},
+  title  =	{PostGIS and Oracle Spatial performance comparison},
+  cited =    {2018-01-04},
+  url   =	{http://csjournals.com/IJCSC/PDF7-2/16.%20Deepika.pdf},
+}
+
+@Online{esridef,
+  key	=	 {zweb:esridef},
+  title  =	{ESRI Geodatabase definition},
+  cited =    {2018-01-06},
+  url   =	{http://desktop.arcgis.com/en/arcmap/10.3/manage-data/geodatabases/what-is-a-geodatabase.htm},
+}
+
+@Online{esritypes,
+  key	=	 {zweb:esritypes},
+  title  =	{ESRI Geodatabase types},
+  cited =    {2018-01-06},
+  url   =	{http://desktop.arcgis.com/en/arcmap/10.3/manage-data/geodatabases/types-of-geodatabases.htm},
+}
+
+@Online{arcsdedoc,
+  key	=	 {zweb:arcsdedoc},
+  title  =	{Understanding ArcSDE},
+  cited =    {2018-01-06},
+  url   =	{http://downloads.esri.com/support/documentation/sde_/706Understanding_ArcSDE.pdf},
+}
+
+
+@Online{gdal,
+  key	=	 {zweb:gdal},
+  title  =	{GDAL - Geospatial Data Abstraction Library},
+  cited =    {2018-01-6},
+  url   =	{http://www.gdal.org/},
+}
+
+@Online{polyglot,
+  key	=	 {zweb:polyglot},
+  title  =	{Polyglot (computing)},
+  cited =    {2018-01-06},
+  url   =	{https://en.wikipedia.org/wiki/Polyglot_(computing)},
+}
