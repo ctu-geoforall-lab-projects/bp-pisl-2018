@@ -14,15 +14,22 @@ from pywps.validator.mode import MODE
 
 class ProcessTwoOutputs(Process):
     def __init__(self):
-        inputs=[LiteralInput('db_section', 'Database section', data_type='string'),
-                ComplexInput('poly_in', 'Input vector file',
+        inputs=[ComplexInput('poly_in', 'Input vector file',
                              supported_formats=[Format('application/gml+xml')],
                              mode=MODE.STRICT),
                 LiteralInput('buffer', 'Buffer size', data_type='float',
                              allowed_values=(0, 1, 10, (10, 10, 100), (100, 100, 1000)))
         ]
-        outputs=[LiteralOutput('buff_out', 'Buffered table', data_type='string'),
-                LiteralOutput('centr_out', 'Centroids table', data_type='string')
+        outputs = [ComplexOutput('buff_out', 'Buffered file',
+                                 supported_formats=[
+                                            Format('application/gml+xml')
+                                            ]
+                                 ),
+                   ComplexOutput('centr_out', 'Centroud buffered file',
+                                 supported_formats=[
+                                     Format('application/gml+xml')
+                                 ]
+                   ),
         ]
         
         super(ProcessTwoOutputs, self).__init__(
@@ -39,9 +46,6 @@ class ProcessTwoOutputs(Process):
         )
 
     def _handler(self, request, response):
-        self.dbsection= request.inputs['db_section'][0].data
-        self.setOutputDbStorage(self.dbsection)        
-        
         inSource = ogr.Open(request.inputs['poly_in'][0].file)
         inLayer = inSource.GetLayer()
 
@@ -97,8 +101,10 @@ class ProcessTwoOutputs(Process):
 
         outSourceB.Destroy()
         outSourceC.Destroy()        
-        
+
+        response.outputs['buff_out'].output_format = FORMATS.GML
         response.outputs["buff_out"].file = outBuff
+        response.outputs['centr_out'].output_format = FORMATS.GML
         response.outputs['centr_out'].file = outCentr
         
         return response

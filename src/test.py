@@ -14,7 +14,11 @@ def parse_string(value):
 
 def get_value(node, idx=0):
     try:
-        value = node[2][idx][2][0].text
+        xlink_key = '{http://www.w3.org/1999/xlink}href'
+        if xlink_key in node[2][idx][2].attrib.keys():
+            value = node[2][idx][2].attrib[xlink_key]
+        else:
+            value = node[2][idx][2][0].text
     except IndexError:
         raise Exception("No output value found (process probably failed)")
 
@@ -33,22 +37,21 @@ def get_connstr():
     return(connstr)
     
 def check_output(value, refcount, reftype):
-    db, idsch, table = value.split('.')
-    ident, schema = idsch.split('_')
+    db, schema, table = value.split('.')
 
     dsn = ogr.Open(get_connstr())
     if dsn is None:
         raise Exception("Reading data failed.")
-    lyr = dsn.GetLayerByName('{}.{}'.format(idsch.replace('"', ''), table.replace('"', '')))
+    lyr = dsn.GetLayerByName('{}.{}'.format(schema.replace('"', ''), table.replace('"', '')))
     if lyr is None:
-        raise Exception("Could not find the layer {}.{}.".format(idsch, table))
+        raise Exception("Could not find the layer {}.{}.".format(schema, table))
     count = lyr.GetFeatureCount()
     if count != refcount:
-        raise Exception("Layer {}.{}: number of features differs (database: {} vs. input file: {})".format(idsch, table, count, refcount))
+        raise Exception("Layer {}.{}: number of features differs (database: {} vs. input file: {})".format(schema, table, count, refcount))
     # type vs reftype
     gtype = lyr.GetGeomType()
     if gtype != reftype:
-        raise Exception("Layer {}.{}: geometry type differs (database: {} vs. input file: {})".format(idsch, table, gtype, reftype))
+        raise Exception("Layer {}.{}: geometry type differs (database: {} vs. input file: {})".format(schema, table, gtype, reftype))
 
 
 def get_refcount(uri):
@@ -72,14 +75,18 @@ def run_process(URL, refcount):
     
     value = get_value(root)
 
-    if identifier != 'process-no-output':
+    if identifier == 'process-one-output':
         parse_string(value)
         check_output(value, refcount, ogr.wkbPolygon)
         
-    if identifier == 'process-two-outputs':
+    elif identifier == 'process-two-outputs':
+        value = get_value(root, idx=0)
+        parse_string(value)
+        check_output(value, refcount, ogr.wkbPoint)
+
         value2 = get_value(root, idx=1)
         parse_string(value2)
-        check_output(value2, refcount, ogr.wkbPoint)
+        check_output(value2, refcount, ogr.wkbPolygon)
 
 if __name__ == "__main__":
     data = "http://127.0.0.1:5000/static/data/points.gml"
@@ -87,8 +94,8 @@ if __name__ == "__main__":
     refcount = get_refcount(data)
     
     for URL in ["http://127.0.0.1:5000/wps?service=wps&&version=1.0.0&request=execute&identifier=process-no-output&datainputs=name=xxx",
-                "http://127.0.0.1:5000/wps?service=wps&&version=1.0.0&request=execute&identifier=process-one-output&datainputs=db_section=db;poly_in=@xlink:href={};buffer=10".format(data),
-                "http://127.0.0.1:5000/wps?service=wps&&version=1.0.0&request=execute&identifier=process-two-outputs&datainputs=db_section=db;poly_in=@xlink:href={};buffer=10".format(data)]:
+                "http://127.0.0.1:5000/wps?service=wps&&version=1.0.0&request=execute&identifier=process-one-output&datainputs=poly_in=@xlink:href={};buffer=10&ResponseDocument=buff_out=@asReference=true".format(data),
+                "http://127.0.0.1:5000/wps?service=wps&&version=1.0.0&request=execute&identifier=process-two-outputs&datainputs=poly_in=@xlink:href={};buffer=10&ResponseDocument=buff_out=@asReference=true;centr_out=@asReference=true".format(data)]:
         run_process(URL, refcount)
 
 
