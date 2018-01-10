@@ -12,17 +12,24 @@ def parse_string(value):
     if len(value.split(sep=".")) != 3:
         raise Exception("Table name does not consist of 3 parts separated by dots.")
 
-def get_value(node, idx=0):
+def get_value(node, identifier='response'):
+    value = None
     try:
         xlink_key = '{http://www.w3.org/1999/xlink}href'
-        if xlink_key in node[2][idx][2].attrib.keys():
-            value = node[2][idx][2].attrib[xlink_key]
-        else:
-            value = node[2][idx][2][0].text
+        po_node = node.find('{http://www.opengis.net/wps/1.0.0}ProcessOutputs')
+        for n in po_node.findall('{http://www.opengis.net/wps/1.0.0}Output'):
+            if n.find('{http://www.opengis.net/ows/1.1}Identifier').text == identifier:
+                if identifier == 'response':
+                    value = n.find('{http://www.opengis.net/wps/1.0.0}Data').text
+                    break
+                else:
+                    ref_node = n.find('{http://www.opengis.net/wps/1.0.0}Reference')
+                    value = ref_node.attrib['{http://www.w3.org/1999/xlink}href']
+                    break
     except IndexError:
         raise Exception("No output value found (process probably failed)")
 
-    if type(value) != str:
+    if value and type(value) != str:
         raise Exception("Output value is not a string.")
 
     return value
@@ -75,16 +82,13 @@ def run_process(URL, refcount):
     
     value = get_value(root)
 
-    if identifier == 'process-one-output':
+    if identifier != 'process-no-output':
+        value = get_value(root, identifier='buff_out')
         parse_string(value)
         check_output(value, refcount, ogr.wkbPolygon)
-        
-    elif identifier == 'process-two-outputs':
-        value = get_value(root, idx=0)
-        parse_string(value)
-        check_output(value, refcount, ogr.wkbPoint)
 
-        value2 = get_value(root, idx=1)
+    elif identifier == 'process-two-outputs':
+        value2 = get_value(root, identifier='centr_out')
         parse_string(value2)
         check_output(value2, refcount, ogr.wkbPolygon)
 
