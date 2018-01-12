@@ -3,7 +3,7 @@
 
 \section{Web Processing Services}
 
-The Web Processing Service Standard (WPS) is an Open Geospatial
+The Web Processing Service (WPS) is an Open Geospatial
 Consortium (OGC) standard that provides rules for publishing and
 executing processes on the web. „The standard also defines how a
 client can request the execution of a process, and how the output from
@@ -13,13 +13,16 @@ binding to those processes. The data required by the WPS can be
 delivered across a network or they can be available at the server.“
 \cite{wpsstandard}
 
+%% ML: tady michate hrusky a jabka (HTTP je protokol, XML je jazyk),
+%% ale nechme to prozatim tak jak to je
+%% ML: Jedna zkratka je vysvetlena, druha ne
 WPS uses HTTP and XML (eXtensible Markup Language) for describing
 processes and data transfer. The first version 0.4.0 was released in
 2005. Despite a new version 2.0.0 having been released in 2015,
 version 1.0.0 remains most widely used.
 
 A process is essentially a function p that returns an output Y for
-each input X:\\ \centerline{p: X -> Y}
+each input X:\\ \centerline{p: X $\rightarrow$ Y}
 
 In case of WPS, a process is a geospatial operation, calculation or a
 model of any complexity. It may require one or more input arguments
@@ -29,7 +32,8 @@ values. While WPS was designed for geospatial data, it is not
 restricted to them.
 
 \begin{figure}[H] \centering
-      \includegraphics[width=400pt]{./pictures/wps_conceptual_model.png}
+  \includegraphics[width=400pt]{./pictures/wps_conceptual_model.png}
+  %% ML: zdroj je standard? Potom uvedte cely nazev standardu? Zkratka nestaci
       \caption[QGIS logo]{WPS conceptual model (source: WPS)}
       \label{fig:WPS}
   \end{figure}
@@ -47,7 +51,7 @@ ability to execute, dismiss or delete a job.
 There are two ways in which a process can be executed. If the
 complexity of the process is lower, the connection is stable and the
 completion time is relatively short (for instance, the Apache2 server
-uses 60 seconds as a default value for ConnectionTimeout\cite{apache})
+uses 60 seconds as a default value for ConnectionTimeout \cite{apache})
 the execution is run synchronously. After the execute request is sent
 by the client, the WPS server starts executing the process while the
 client remains connected to the server for the entire time of the
@@ -91,7 +95,7 @@ service. These can be either values (numerical or other) that are
 included directly in the request or references to other recources that
 are accessible as local files or through the web. Analogically,
 outputs of the execute operation can be included in the response XML
-document or stored locally or on the web. In case of anyschronous
+document or stored locally or on the web. In case of asynchronous
 operation, the response contains a unique JobID that the client uses
 to enquire about the process status and results.
 
