@@ -3,19 +3,27 @@
 
 \section{Functionality} 
 
+%% ML: use neni moc vhodne slovo, zkuste preformulovat
 PyWPS allows to publish and use geoprocessing services on a
+%% ML: zkuste vetu rozdelit (je prilis dlouha, v kratke sekvenci se opakuje 'and')
 server. Every process that is to be implemented by PyWPS must be
-constructed as a Python class, contain a list of inputs nad outputs
+constructed as a Python class, contain a list of inputs and outputs
 and a handler method with two parameters - request and
 response. \cite{pywpsprocess} Details on the procedure of creating new
 processes can be found in PyWPS documentation.
 
+%% ML: For sending (?)
+%% ML: running at a server?
 To send a request to PyWPS, an instance of PyWPS must be running. If
+%% ML: If it is bych asi uplne vynechal
 it is, the request is handled and a response is generated and returned
+%% ML: file -> document
+%% ML: and -> which ?
 to the client. The response has a form of an \zk{XML} file and
-includes different elemenents depending on the type of the request.
+includes different elements depending on the type of the request.
 
 When an Execute request is called, a new, temporary folder is created
+%% ML: moved -> copied (nejsou odstranena ze zdroje)
 in location specified in configuration file and input data is moved
 here. While the process is being executed, temporary files may be
 generated in this folder. For every process, it must be specified what
@@ -30,11 +38,15 @@ that arose during the execution, is then deleted.
 
 The simplest option of delivering output data is to embed it in the
 \zk{XML} response document. Either as plain text, \zk{GML} or, in case
+%% ML: encoding scheme
 of an image, base64 scheme. This is typically used when the output is
+%% ML: where - for PyWPS
 relatively small. It is also the default option.
 
+%% ML: u obrazku, ktere jste vytvarel uvedte take zdroj (source: author)
 \begin{figure}[H] \centering
-      \includegraphics[width=350pt]{./pictures/optionone.png}
+  \includegraphics[width=350pt]{./pictures/optionone.png}
+  %% ML: zkuste popisek rozsirit, konkretizovat (data odkud kam)
       \caption[Delivering data directly]{Delivering data directly}
       \label{fig:optionone}
   \end{figure}
@@ -46,8 +58,10 @@ relatively small. It is also the default option.
   default location). The \zk{URL} is embedded in the \zk{XML}
   response. \cite{pywpsurl}
 
+  %% ML: u obrazku, ktere jste vytvarel uvedte take zdroj (source: author)
 \begin{figure}[H] \centering
-      \includegraphics[width=370pt]{./pictures/optiontwo.png}
+  \includegraphics[width=370pt]{./pictures/optiontwo.png}
+  %% ML: opet mirne konkretizujte
       \caption[Delivering data via \zk{URL} reference]{Delivering data via \zk{URL} reference}
       \label{fig:optiontwo}
   \end{figure}
@@ -60,6 +74,7 @@ relatively small. It is also the default option.
 
 \subsubsection{Proposed Extension} 
 
+%% ML: veta nedava moc smysl, prepiste
 The aim of this thesis was to develop another variant to add to the
 existing two that would store output data in a PostGIS database.
 
@@ -67,12 +82,21 @@ From the point of view of the consumer of a process, it is similar to
 the previous option. After the final output has been produced,
 connection to the database is established and the output data is
 copied there. When the \zk{XML} response is delivered to the client,
+%% ML: to neni uplne presne, bude potrebovat pristupove udaje (host
+%% name, username, password), viz poznamka nize - jde o jakysi
+%% mezikrok 
 it contains a reference to the database with which the client can
 access the data. The reference is composed of the name of the
 database, schema and table.
 
+%% ML: doplnte, ze jde o mezikrok (poskytnout referenci na databazi)
+%% reseni by se melo doplnit o podporu mapoveho serveru tak, aby
+%% klient dostal URL WFS sluzby (ta bude data cist z DB). Pote bude
+%% reseni ciste (z pohledu OGC standardu)
+
 \begin{figure}[H] \centering
-      \includegraphics[width=350pt]{./pictures/newoption.png}
+  \includegraphics[width=350pt]{./pictures/newoption.png}
+    %% ML: opet mirne konkretizujte + zdroj 
       \caption[Storing data in a database]{Storing data in a database}
       \label{fig:newoption}
   \end{figure}
@@ -86,10 +110,16 @@ database, schema and table.
 \subsection{PgStorage class development} 
 
 A new class, \texttt{PgStorage}, has been developed that implements
+%% ML: konkretne pro PostGIS (zde by se hodil odkaz do nove kapitoly v
+%% technologiich)
 database storage support. It is a derived class, inheriting from
 \texttt{StorageAbstract} class that is a part of the standard PyWPS
+%% part of PyWPS API
 library.
 
+%% ML: uvadejte pywps/iout (zpetna lomitka je Windows notace, ktera
+%% zde neni podstatna)
+%% ML: misto adresarich mluvte radeji o Python modulech
 PgStorage is stored within \texttt{storage.py} in the .\textbackslash
 pywps\textbackslash inout folder. It consists of several methods that
 are described below.
@@ -104,6 +134,8 @@ accesses the configuration file and retrieves required elements. What
 elements are retrieved is specified by the function's two parameters,
 section and option.
 
+%% ML: ten popis je mozna prilis detaily, polopatisticky a spatne se
+%% cte, muzete zkusit zkratit / zprehlednit
 First, the correct section (\texttt{db}) is specified and saved to a
 variable. Then, the name of the database is extracted from the
 configuration file and saved to a variable.
@@ -117,6 +149,8 @@ method is created and saved to a variable.
 
 \subsubsection{\textunderscore create\textunderscore schema} 
 
+%% ML: Opet, ten popis je prilis detailni, nevede to k citelnosti
+%% textu, neni to zasadni vytka, klidne nechte, mebo mirne upravte
 First defines a variable \texttt{schema\textunderscore name} as a
 random string of specified length that consists of letters and
 digits. This is done using Python libraries \texttt{random} and
@@ -138,7 +172,10 @@ commited so they persist after connection is aborted, cursor and
 connection are closed and the \texttt{schema\textunderscore name}
 variable is returned.
 
-\subsubsection{\textunderscore store\textunderscore output} 
+\subsubsection{\textunderscore store\textunderscore output}
+
+%% ML: na tomto miste bych spise nez o knihovne OGR mluvil o GDAL
+%% (muzete pridat link do technologii, aby byl text lepe provazan)
 As its name suggests, it handles writing output data to the
 database. It benefits from an extensive use of the OGR library. It has
 two input parameters, the name of the file that is to be stored in a
@@ -161,6 +198,7 @@ This method returns the identifier.
 \subsubsection{store} 
 
 The store method is defined in the \texttt{StorageAbstract} parent
+%% ML: muzete uvest, ze output je v tomto pripade instance tridy ComplexOutput 
 class. Just as in the parent class, it has output as an input
 argument.
 
@@ -174,21 +212,32 @@ the \zk{XML} response of the process.
 
 There are three parameters returned by the method - the corresponding
 value of a DB variable defined within the \texttt{STORE\textunderscore
+  %% ML: nazev vystupniho souboru neni v soucasnosti nijak pouzit 
   TYPE} class, name of the output file and the variable describing the
+%% ML: zduraznete ze jde o DB
 location of the data. These must be returned as they are required by
 the \texttt{get\textunderscore url} method (defined within the
+%% ML: presne, viz poznamka vyse
 \texttt{ComplexOutput} class).
 
 
 \subsection{PyWPS source code changes} 
 
 All changes that have been done within the PyWPS source code can be
+%% ML: zde uvedte odkaz do prilohy 
 examined in a \texttt{diff} folder that is appended to this thesis. It
+%% ML: diff bude pravdepodobne pouze jeden, vetu muzete vynechat
 contains a file for each of the three classes mentioned below that
 documents every alteration of the original code.
 
-\subsubsection{Process.py class} 
+%% ML: tyto zmeny nejsou aktualni!!! v tride Process jiz v soucasnosti
+%% zadne zmeny nejsou (pokud se nepletu), text je potreba upravit na
+%% zaklade nasi posledni schuzky
+%% ML: v kodu jsem odstranil pozustatek zmen (583b5ea), nyni by ve
+%% tride Process jiz zadne zmeny byt nemely
+\subsubsection{Process class} 
 
+%% ML: source code -> API
 The \texttt{Process} class is a part of the PyWPS source code. All
 processes inherit from this class.
 
@@ -208,28 +257,36 @@ If the condition is met (i.e. the object - a process - does have an
 attribute called \texttt{writer}) the second line is executed and the
 \texttt{store} method is called.
 
+%% ML: Output.py neni trida ale Python modul
 \subsubsection{Outputs.py class}
 
+%% ML: muzete uvest jake tridy tento modul poskytuje (ani ne jejich
+%% vycet), ale logicky ramec funkcionalit techto trid (vystupni typy
+%% parametru)
 Since there is another option being added of storing output data that
 returns a reference to the client, the \texttt{\textunderscore
+  %% ML: uvadite metodu, jake tridy, 
   execute\textunderscore xml\textunderscore reference} method had to
 be adjusted.
 
 Whether the output data is stored as a file or in a database depends
 on value of the \texttt{store\textunderscore type} option in
 configuration file. Therefore, the code block that has been added here
+%% ML: toto je nova konfiguracni promenna (to byste mel zminit)
 first retrieves the value using \texttt{get\textunderscore
   config\textunderscore value}. If it is equal to \texttt{"db"},
 \texttt{PgStorage} is chosen to handle output data. In any other case
 (the value is different or the option is missing),
 \texttt{FileStorage} is used.
 
+%% ML: opet jde o modul, doplnte jake tridy tento modul obsahuje
 \subsubsection{Storage.py class}
 
 Here, the \texttt{PgStorage} class has been added that implements the
 database storage functionality. For more details on this class, please
 refer to the section 4.2.1.
 
+%% ML: nasledujici dva odstavce jsou duplicitni
 Also, second option has been added to the class
 \texttt{STORE\textunderscore TYPE}.  So, apart from a \texttt{PATH}
 variable that implies storing output data as a file, there is also a
@@ -240,6 +297,7 @@ Also, second option has been added to the class
 variable that implies storing output data as a file, there is also a
 \texttt{DB} variable that is used when saving data in a database.
 
+%% ML: testing?
 \subsection{Test} 
 
 A script has been developed to test whether the process of storing
@@ -247,10 +305,13 @@ outputs in a database functions correctly.
 
 For the purpose of this test, three simple processes have been
 written. One of them only returns a string, other two,
+%% ML: text preteka, opravte
 (\texttt{process\textunderscore one\textunderscore output} and
 \texttt{process\textunderscore two\textunderscore outputs}), produce
 one and two complex outputs, respectively.
 
+%% ML: zde zminte, ze jde o processy do znacne miry inspirovane
+%% procesem z pywps flask demo!
 Both \texttt{process\textunderscore one\textunderscore output} and
 \texttt{process\textunderscore two\textunderscore outputs} generate
 buffers around input features, the latter also calculates centroids
@@ -277,9 +338,15 @@ warning.
 When no exception is raised, it indicates that all processes have been
 run and all complex outputs have been stored in a database.
 
+%% ML: OGR -> GDAL
 The OGR library is used for creating database connection, counting
 features and getting geometry type. Database login credentials are
 retrieved from a configuration file using \texttt{get\textunderscore
   config\textunderscore value}. To ensure correct configuration file
 is read, another PyWPS built-in function, \texttt{load\textunderscore
   configuration}, is used.
+
+%% ML: pokud bude v priloze ukazka spusteni, tak zde uvedte link
+
+%% ML: podobne by mela byt v priloze ukazka konfigurace (v textu
+%% konfiguraci na vice mistech zminujete, doplnte linky do prilohy)
