@@ -249,12 +249,6 @@
   url   =	{http://enterprise.arcgis.com/en/server/latest/publish-services/linux/how-to-publish-a-service.htm},
 }
 
-@Online{pywpsfcprocess,
-  key	=	 {zweb:pywpsprocess},
-  title  =	{PyWPS Processes},
-  cited =    {2018-01-07},
-  url   =	{http://pywps.readthedocs.io/en/master/process.html},
-}
 
 @Online{sfs,
   key	=	 {zweb:sfs},
@@ -311,23 +305,6 @@
   cited =    {2018-01-12},
   url   =	{http://pywps.readthedocs.io/en/master/process.html#returning-large-data},
 }
-
-@Online{pywpsfcprocess,
-  key	=	 {zweb:pywpsprocess},
-  title  =	{PyWPS Processes},
-  cited =    {2018-01-07},
-  url   =	{http://pywps.readthedocs.io/en/master/process.html},
-}
-
-@Online{pywpsfcprocess,
-  key	=	 {zweb:pywpsprocess},
-  title  =	{PyWPS Processes},
-  cited =    {2018-01-07},
-  url   =	{http://pywps.readthedocs.io/en/master/process.html},
-}
-
-
-
 
 
 

@@ -274,7 +274,7 @@ FUNCTION {format.issn}
 FUNCTION {format.url}
 { url empty$
     { "" }
-    { new.block "Do\-stup\-n{\'{e}} z: \url{" url * "}" * }
+    { new.block "Available at: \url{" url * "}" * }
   if$
 }
 
