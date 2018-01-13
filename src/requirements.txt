@@ -11,6 +11,6 @@ SQLAlchemy==1.0.15
 psutil==4.3.1
 psycopg2
 gdal
--e git+https://github.com/ctu-geoforall-lab-projects/bp-pisl-2018
+-e git+https://github.com/ctu-geoforall-lab-projects/bp-pisl-2018/tree/master
 
 
