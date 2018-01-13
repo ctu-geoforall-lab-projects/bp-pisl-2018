@@ -12,3 +12,4 @@ src/outputs
 __pycache__
 *~
 *.toc
+*.loa
