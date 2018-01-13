@@ -76,8 +76,8 @@ connection that prevents synchronous execution to successfully run.
 \subsection{Available operations}
 
 \textbf{GetCapabilities.} A mandatory operation for any \zk{OGC} Web
-service. For \zk{WPS}, it is one of the three basic operations that are
-available for any process. There is no input parameter required. Once
+service. \cite{getcap} For \zk{WPS}, it is one of the three basic operations that are
+available for any process. There are no input parameters required. Once
 the request is sent, the server returns a document that includes
 information about the service provider, a list of operations available
 for a\zk{WPS}server and a list of all the processes offered by the
@@ -85,39 +85,39 @@ service.
 
 \noindent \textbf{DescribeProcess.} Another basic operation. The only
 required input is the name (or a list of names) of the process to be
-described. If the process offers description in multiple languages, a
+described. \cite{despro} If the process offers description in multiple languages, a
 language parameter can be added to the request. It returns a document
 with characteristics of the process and a description of input
 parameters. It also describes the output format of the process.
 
 \noindent \textbf{Execute.} The key operation for any \zk{OGC} \zk{WPS}
 service. It allows processes that are implemented by a server to be
-run. It requires input parameter values as specified by the
+run. \cite{execute} It requires input parameter values as specified by the
 service. These can be either values (numerical or other) that are
 included directly in the request or references to other recources that
 are accessible as local files or through the web. Analogically,
-outputs of the execute operation can be included in the response \zk{XML}
-document or stored locally or on the web. In case of asynchronous
+outputs of the execute operation can be included in the \zk{XML}
+response document or stored locally or on the web. In case of asynchronous
 operation, the response contains a unique JobID that the client uses
 to enquire about the process status and results.
 
 \noindent \textbf{GetStatus.} An operation only used for asynchronous
 processes. After the Execute request has been accepted, the client can
 use this operation to query status information of the processing job,
-using a JobID returned by the Execute response. This operation is only
+using a JobID returned by the Execute response. \cite{getstat} This operation is only
 available in version 2.0.0.
 
 \noindent \textbf{GetResult.} The final operation used for
 asynchronous processes that is to be used after the GetStatus
 operation reports the process has finished. The input parameter is the
-unique JobID. Then, GetResult fetches the results of the process as
+unique JobID. \cite{getres} Then, GetResult fetches the results of the process as
 described in the Execute section. This operation is only available in
 version 2.0.0.
 
 \noindent \textbf{Dismiss.} Allows the client to let the server know
 the result of the process is no longer wanted. In such case, all the
 resources corresponding to the JobID sent in the Dismiss request may
-be deleted. If the process is still running, it may be cancelled. This
+be deleted. \cite{dismiss} If the process is still running, it may be cancelled. This
 operation is only available in version 2.0.0.
 
 \subsection{OGC\ WPS Implementations}
@@ -135,8 +135,8 @@ operation is only available in version 2.0.0.
 PyWPS is a server side implementation of the OGC Web Processing
 Service (\zk{OGC} \zk{WPS}) standards 1.0.0. It is written in the Python
 programming language, it runs on Python 2.7, 3.3 or higher and it is
-tested and developed on Linux. It uses a ConfigParser format for
-configuration files. It supports a variety of geospatial software and
+tested and developed on Linux. \cite{pywpsinfo} It uses a ConfigParser format for
+configuration files.\cite{pywpsconf} It supports a variety of geospatial software and
 tools such as GRASS \zk{GIS}, R Project or the \zk{GDAL} library. Synchronous
 and asynchronuous invocations are supported. As for request encoding,
 two options are available - key-value pairs (using HTTP-GET) or \zk{XML}
@@ -147,7 +147,7 @@ incoming request, it accepts the request and returns a response.
 
 In 2016, it upgraded from PyWPS 3 to PyWPS 4. Some of the more
 significant changes include every input being considered a list of
-inputs and all inputs having file, data and stream attributes. These
+inputs and all inputs having file, data and stream attributes. \cite{pywps3to4} These
 attributes allow better manipulation with data.
 	
 As PyWPS only supports version 1.0.0 of the OGC\zk{WPS}standards, it does
@@ -183,7 +183,7 @@ conversion of vector formats.
 
 ZOO-Client is a simple client-side JavaScript \zk{API} for interacting with
 \zk{WPS} from web applications. It allows to build\zk{WPS}requests and send
-them to a\zk{WPS}server. It also provides functions to easily parse the
+them to a\zk{WPS}server. \cite{zooclient} It also provides functions to easily parse the
 output \zk{XML} responses.
 
 
@@ -205,7 +205,7 @@ systems.
 As for the\zk{WPS}invocation methods, it supports both synchronous and
 asynchronous invocation, HTTP-GET and HTTP-POST. As for the WPS
 datatypes, it supports GeoTIFF, Shapefile, \zk{KML}, \zk{WKT} and
-others.\cite{north} Configuration is based on an \zk{XML} file.
+others. \cite{north} Configuration is based on an \zk{XML} file.
   
 
 \subsubsection{ESRI Web Processing}
@@ -222,7 +222,7 @@ company in the global \zk{GIS} market. It offers a variety of \zk{GIS} products,
 including ArcGIS for Desktop, ArcGIS Online or ArcGIS for Mobile.
 
 It allows services created within the ArcGIS software to be published
-and shared online on another ESRI's platform, ArcGIS Server. On ArcGIS
+and shared online on another ESRI's platform, ArcGIS Server. \cite{esripublish} On ArcGIS
 Server, these services can be stored and accessed by other users. They
 can be also implemented alongside with maps, which can also be created
 in other ArcGIS software and then published online, into online web
@@ -248,10 +248,10 @@ length, polygon area, distance between geometries, etc.
 
 The International Organization for Standardization (\zk{ISO}) and \zk{OGC} specify a
 Simple Features standard that is divided into two parts. The first one
-defines a general model for two-dimensional geometries. It also deals
+defines a general model for two-dimensional geometries. \cite{sfa} It also deals
 with spatial reference systems. The second part defines an
 implementation using SQL. This second part is implemented to varying
-extent in most of spatial databases and extensions.
+extent in most of spatial databases and extensions. \cite{sfa}
 
 Here I list the best known and most widely used spatial database
 systems, however, there are many more. In fact, most of the major
@@ -268,11 +268,11 @@ spatial databases (e.g. SpatialDB, SpaceBase, MapD).
   \end{figure}
   
 PostGIS is an open-source spatial database extension for
-PostgreSQL. PostgreSQL is a widely-used object-relational database
+PostgreSQL. \cite{pstgis} PostgreSQL is a widely-used object-relational database
 management system. PostGIS adds support for geographic objects
 according to the \zk{OGC} Simple Features for \zk{SQL} specification.
 
-PostgreSQL and PostGIS use the client/server architecture. When a
+PostgreSQL and PostGIS use the client/server architecture. \cite{postgre} When a
 client makes a request (typically an \zk{SQL} statement), there is a server
 that accepts and evaluates it. The server itself is then responsible
 for updating (or, generally, changing in any way) the database
@@ -283,7 +283,7 @@ operations that are frequently repeated.
 
 In a study that compared PostGIS with Oracle Spatial, PostGIS was
 found to perform faster when accessing and querying
-data.\cite{postgis}
+data. \cite{postgis}
 
 	
 \subsection{Oracle Spatial and Graph}
@@ -297,7 +297,7 @@ data.\cite{postgis}
   
 The Oracle Spatial and Graph is an extension of the Oracle Database
 that allows managing geographic data in a native type within an Oracle
-database. It is also a client-server service but, unlike PostGIS, it
+database. It is also a client-server service \cite{oraclearch} but, unlike PostGIS, it
 is proprietary. Spatial features extend Oracle Locator, a standard
 feature of the Oracle Database distribution. Oracle Locator provides
 basic functions and services in Oracle Spatial but it lacks more
@@ -316,13 +316,13 @@ analysis.
   
 SpatiaLite is a lightweight library that extends the SQLite database
 management system so it provides support for spatial data. Unlike
-Oracle and PostgreSQL, SQLite is designed as a file-based database. It
+Oracle and PostgreSQL, SQLite is designed as a single file-based database. \cite{sqlitefile} It
 means that, unlike server-based databases, by using SQL expressions a
 user updates the file directly. Therefore, a file-based database must
 be stored in the local file system. As a consequence, SQLite is very
 fast and efficient for standard operations but is not optimized for
 multi-user applications or for large-scale operations. SQLite (and
-SpatiaLite) is open-source.
+SpatiaLite) is open-source. \cite{sqliteopen}
 
 \subsection{ArcSDE \& Geodatabase (ESRI)}
 
