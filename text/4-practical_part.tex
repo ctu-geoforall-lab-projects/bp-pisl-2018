@@ -5,7 +5,7 @@
 
 PyWPS allows to publish and use geoprocessing services on a server. Every process that is to be implemented by PyWPS must be constructed as a Python class, contain a list of inputs nad outputs and a handler method with two parameters - request and response. \cite{pywpsprocess} Details on the procedure of creating new processes can be found in PyWPS documentation.
 
-To send a request to PyWPS, an instance of PyWPS must be running. If it is, the request is handled and a response is generated and returned to the client. The response has a form of an XML file and includes different elemenents depending on the type of the request.
+To send a request to PyWPS, an instance of PyWPS must be running. If it is, the request is handled and a response is generated and returned to the client. The response has a form of an \zk{XML} file and includes different elemenents depending on the type of the request.
 
 When an Execute request is called, a new, temporary folder is created in location specified in configuration file and input data is moved here. While the process is being executed, temporary files may be generated in this folder. For every process, it must be specified what the final output is. Once the execution is finished, the output is copied to a location that is accessible via the web. The temporary folder, containing input and output data and all the intermediate data that arose during the execution, is then deleted.
 
@@ -13,7 +13,7 @@ When an Execute request is called, a new, temporary folder is created in locatio
 
 \subsubsection{Current Options} 
 
-The simplest option of delivering output data is to embed it in the XML response document. Either as plain text, GML or, in case of an image, base64 scheme. This is typically used when the output is relatively small. It is also the default option.
+The simplest option of delivering output data is to embed it in the \zk{XML} response document. Either as plain text, \zk{GML} or, in case of an image, base64 scheme. This is typically used when the output is relatively small. It is also the default option.
 
 \begin{figure}[H] \centering
       \includegraphics[width=350pt]{./pictures/optionone.png}
@@ -21,11 +21,11 @@ The simplest option of delivering output data is to embed it in the XML response
       \label{fig:optionone}
   \end{figure}
 
-If, on the contrary, the output data is large and complex, there is another option. The client is only given a reference, a URL link, from which the data can be downloaded. PyWPS saves the file in a folder specified in configuration passed by the service (or in a default location). The URL is embedded in the XML response. \cite{pywpsurl}
+If, on the contrary, the output data is large and complex, there is another option. The client is only given a reference, a \zk{URL} link, from which the data can be downloaded. PyWPS saves the file in a folder specified in configuration passed by the service (or in a default location). The \zk{URL} is embedded in the \zk{XML} response. \cite{pywpsurl}
 
 \begin{figure}[H] \centering
       \includegraphics[width=370pt]{./pictures/optiontwo.png}
-      \caption[Delivering data via URL reference]{Delivering data via URL reference}
+      \caption[Delivering data via \zk{URL} reference]{Delivering data via \zk{URL} reference}
       \label{fig:optiontwo}
   \end{figure}
 
@@ -36,7 +36,7 @@ It is up to the consumer of the process to decide which option to choose. For th
 
 The aim of this thesis was to develop another variant to add to the existing two that would store output data in a PostGIS database.
 
-From the point of view of the consumer of a process, it is similar to the previous option. After the final output has been produced, connection to the database is established and the output data is copied there. When the XML response is delivered to the client, it contains a reference to the database with which the client can access the data. The reference is composed of the name of the database, schema and table. 
+From the point of view of the consumer of a process, it is similar to the previous option. After the final output has been produced, connection to the database is established and the output data is copied there. When the \zk{XML} response is delivered to the client, it contains a reference to the database with which the client can access the data. The reference is composed of the name of the database, schema and table. 
 
 \begin{figure}[H] \centering
       \includegraphics[width=350pt]{./pictures/newoption.png}
@@ -67,20 +67,20 @@ Another variable is defined that serves as a connection string for connecting to
 
 
 \subsubsection{\textunderscore create\textunderscore schema} 
-First defines a variable \texttt{schema\textunderscore name} as a random string of specified length that consists of letters and digits. This is done using Python libraries "random" and "string".  
+First defines a variable \texttt{schema\textunderscore name} as a random string of specified length that consists of letters and digits. This is done using Python libraries \texttt{random} and \texttt{string}.  
  
 %In the future, schema_name should be created in another way so it is related to the process
 
 Next, \texttt{psycopg2} library is used to connect to the database, specified by the target variable. A try-except clause is used to raise an exception if the connection could not be established. 
 
-Then, when a cursor has been created, an SQL query is executed that generates a new schema if it doesn't exist already. Name of the schema is equal to the \texttt{schema\textunderscore name} variable. This, too, uses a try-except clause.
+Then, when a cursor has been created, an \zk{SQL} query is executed that generates a new schema if it doesn't exist already. Name of the schema is equal to the \texttt{schema\textunderscore name} variable. This, too, uses a try-except clause.
 
-After the SQL query is performed, changes in the database are commited so they persist after connection is aborted, cursor and connection are closed and the \texttt{schema\textunderscore name} variable is returned.
+After the \zk{SQL} query is performed, changes in the database are commited so they persist after connection is aborted, cursor and connection are closed and the \texttt{schema\textunderscore name} variable is returned.
 
 \subsubsection{\textunderscore store\textunderscore output} 
 As its name suggests, it handles writing output data to the database. It benefits from an extensive use of the OGR library. It has two input parameters, the name of the file that is to be stored in a database, and a process identifier. 
 
-Thanks to OGR, the process is fairly simple and straight-forward. The output file is opened using the file name input parameter and connection to the database is established. Then, data is copied from the output file to the database using the OGR CopyLayer function. 
+Thanks to OGR, the process is fairly simple and straight-forward. The output file is opened using the file name input parameter and connection to the database is established. Then, data is copied from the output file to the database using the OGR \texttt{CopyLayer} function. 
 
 Each of the three above mentioned operations is followed by a simple condition that checks if the variable storing output of the operation is not None. If it is, it raises an exception with a corresponding message.
 
@@ -93,7 +93,7 @@ The store method is defined in the \texttt{StorageAbstract} parent class. Just a
 
 It initializies the \texttt{\textunderscore  store\textunderscore output} method and passes it name and identifier of the output file. 
 
-Then, a string is created that specifies the location of the data and saved as a variable. It consists of a name of the database, schema and identifier. This string is then given to the client as an output in the XML response of the process.
+Then, a string is created that specifies the location of the data and saved as a variable. It consists of a name of the database, schema and identifier. This string is then given to the client as an output in the \zk{XML} response of the process.
 
 There are three parameters returned by the method - the corresponding value of a DB variable defined within the \texttt{STORE\textunderscore TYPE} class, name of the output file and the variable describing the location of the data. These must be returned as they are required by the \texttt{get\textunderscore url} method (defined within the \texttt{ComplexOutput} class). 
 
@@ -122,7 +122,9 @@ Whether the output data is stored as a file or in a database depends on value of
 
 Here, the \texttt{PgStorage} class has been added that implements the database storage functionality. For more details on this class, please refer to the section 4.2.1.
 
-Also, second option has been added to the class \texttt{STORE\_TYPE}. So, apart from a \texttt{PATH} variable that implies storing output data as a file, there is also a \texttt{DB} variable that is used when saving data in a database.
+Also, second option has been added to the class \texttt{STORE\textunderscore TYPE}.  So, apart from a \texttt{PATH} variable that implies storing output data as a file, there is also a \texttt{DB} variable that is used when saving data in a database.
+
+Also, second option has been added to the class \texttt{STORE\textunderscore TYPE}. So, apart from a \texttt{PATH} variable that implies storing output data as a file, there is also a \texttt{DB} variable that is used when saving data in a database.
 
 \subsection{Test} 
 
@@ -130,9 +132,9 @@ A script has been developed to test whether the process of storing outputs in a 
 
 For the purpose of this test, three simple processes have been written. One of them only returns a string, other two, (\texttt{process\textunderscore one\textunderscore output} and \texttt{process\textunderscore two\textunderscore outputs}), produce one and two complex outputs, respectively. 
 
-Both \texttt{process\textunderscore one\textunderscore output} and \texttt{process\textunderscore two\textunderscore outputs} generate buffers around input features, the latter also calculates centroids thereof. They are based on sample processes available for the PyWPS demo service. There is also a GML file provided with the demo service that was used as an input file for this test.  
+Both \texttt{process\textunderscore one\textunderscore output} and \texttt{process\textunderscore two\textunderscore outputs} generate buffers around input features, the latter also calculates centroids thereof. They are based on sample processes available for the PyWPS demo service. There is also a \zk{GML} file provided with the demo service that was used as an input file for this test.  
 
-To sucessfully run the test, instance of PyWPS must be running. When run, the test executes each of the processes and analyzes the corresponding XML response using the ElementTree XML parser. For every process, it returns an identifier of the process extracted from the XML document. 
+To sucessfully run the test, instance of PyWPS must be running. When run, the test executes each of the processes and analyzes the corresponding \zk{XML} response using the ElementTree \zk{XML} parser. For every process, it returns an identifier of the process extracted from the \zk{XML} document. 
 
 For the two processes that yield complex outputs the test establishes connection to the database and counts features in the corresponding table. Then it compares this value to the number of features in the input file. If these two values differ, it raises an exception.
 
