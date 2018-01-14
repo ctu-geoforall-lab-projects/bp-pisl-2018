@@ -2,20 +2,23 @@
 \label{5-conclusion}
 
 
-The aim of this thesis was to design and develop an extension for the PyWPS framework that would allow output data to be stored in a PostGIS (nebo remote a o postgis se rozepsat pozdeji?) database (da se rict stored in a RDBMS? nebo RDBMS je system, ktery spravuje databazi?) rather than in a standard file system. 
+The aim of this thesis was to design an extension for the PyWPS framework that would allow output data to be stored in a database rather than in a standard file system. 
 
-Until now, there were only two ways of returning data to the client. It was either embodied in the response directly or, typically if the data was larger or more complex, it remained stored on a server and the response included a reference (a URL link) to the (space  - jak se to rekne?) from which the data could be downloaded.
+Until now, there were only two ways of returning data to the client. It was either embedded in the response directly or, typically if the data was larger or more complex, it remained stored on a server and the response included a reference (a \zk{URL} link) pointing to the location from which the data could be downloaded.
 
-By adding the third option, the output data can be transferred, stored and processed more effectively. Depending on the author of the process, there may be one or more databases (to samy - je database ten spravny termin?). The consumer of a service chooses what database to store the output data in by selecting the corresponding section in the configuration file as an input parameter. These databases can run on any server, including the one where the instance of PyWPS is running. The extension is designed as a Python class. 
+By adding the third option of storing outputs in a remote database, the output data can be transferred, stored and processed more effectively. However, there is a lot of room for improvement and future work. 
 
-There is a lot of room for improvement and future work. During the development, the author encountered several issues. Some of them have been solved, others were out of the scope of this thesis. 
+Most importantly, current state of the extension provides the client with a string that points to a specific table, schema and database. The client, however, has to access the database by themselves and only then work with the data. 
 
-One of the unresolved issues is safety of the database login (prihlasovaci udaje). At this point, all the data that is neccessary for connecting to and accessing the database (including password) is stored in the configuration file as plain text. Obviously, this is a major safety risk and a better, more secure solution is needed where the password (at least) would not be accessible. (possible solution??)
+In the future, the client should be only given a unique \zk{URL} link that points to a running \zk{WFS} or \zk{WMS} service that will be retrievíng data from the database. The client will not even need to be aware where tha data is stored as they will access it easily through a standardized interface. 
+
+The author encountered several other issues during the development. Some of them have been solved, others were out of the scope of this thesis. 
+
+One of the unresolved issues is safety of the database login credentials. At this point, all the data that is neccessary for connecting to and accessing the database (including password) is stored in the configuration file as plain text. Obviously, this is a major safety risk and a better, more secure solution is needed where (at least) the password would not be accessible directly. 
 
 Another problem that may arise if using this extension and that should be addressed in the future is exceeding the capacity of the database if the output data that is being copied to the database is too large. This could be solved by adding another functionality that would establish a connection to the database, check how much space there is available and then compare it to the size of the output file and raise an exception if the capacity was not sufficient.
 
-These and perhaps other improvements are neccessary before the extension can be fully implemented by PyWPS. Due to time constraints, the above mentioned changes will be worked on after this thesis has been submitted. The author plans to cooperate with the authors of PyWPS to implement the extension.
-
+These and perhaps other improvements are neccessary before the extension can be fully implemented by PyWPS. Due to time constraints, the above mentioned changes will be worked on after this thesis has been submitted. The author plans to cooperate with authors of PyWPS to implement the extension as a pull request to the PyWPS repository.
 
 
 
