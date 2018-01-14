@@ -182,7 +182,7 @@ index 59b3adb..3789389 100644
  
          if self.data_format:
 diff --git a/pywps/inout/storage.py b/pywps/inout/storage.py
-index 0868cc5..01f7ecb 100644
+index 0868cc5..50a11f7 100644
 --- a/pywps/inout/storage.py
 +++ b/pywps/inout/storage.py
 @@ -17,6 +17,8 @@ LOGGER = logging.getLogger('PYWPS')
@@ -194,7 +194,7 @@ index 0868cc5..01f7ecb 100644
  # TODO: cover with tests
  
  
-@@ -136,6 +138,83 @@ class FileStorage(StorageAbstract):
+@@ -136,6 +138,84 @@ class FileStorage(StorageAbstract):
  
          return (STORE_TYPE.PATH, output_name, url)
  
@@ -249,7 +249,7 @@ index 0868cc5..01f7ecb 100644
 +        
 +    def _store_output(self, file_name, identifier):
 +        """ Opens output file, connects to PostGIS database and copies data there
-+        """
++        """ 
 +        from osgeo import ogr
 +        # connect to a database and copy output there
 +        LOGGER.debug("Connect string: {}".format(self.target))
@@ -265,7 +265,7 @@ index 0868cc5..01f7ecb 100644
 +        )
 +        if layer is None:
 +            raise Exception("Writing output data to the database failed.")
-+
++        # returns process identifier (defined within the process)
 +        return identifier
 +
 +    def store(self, output):
@@ -273,7 +273,8 @@ index 0868cc5..01f7ecb 100644
 +        """
 +        self._store_output(output.file, output.identifier)
 +        url = '{}.{}.{}'.format(self.dbname, self.schema_name, output.identifier)
-+
++        # returns value for database storage defined in the STORE_TYPE class,        
++        # name of the output file and a reference
 +        return (STORE_TYPE.DB, output.file, url)
  
  def get_free_space(folder):
