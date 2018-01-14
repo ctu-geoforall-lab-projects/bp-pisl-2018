@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                 APPENDIX 1  RUN TEST.PY                                       %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{User guide}
+\chapter{User guide for testing} \label{testing}
 \label{user-guide}
 
 %Navigate ??
@@ -60,7 +60,7 @@ $ python3 test.py
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%                 APPENDIX - USER MANUAL                                        %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\chapter{Enabling database storage}
+\chapter{Enabling database storage} \label{appendix}
 \label{Enabling-database-storage}
 
 To enable the database storage capacity as an author of a process, there are a few things that must be done. No changes are neccessary in the code of the process itself, but configuration file must be updated. 
@@ -68,7 +68,7 @@ To enable the database storage capacity as an author of a process, there are a f
 It is assumed that there is an instance of PostGIS database running on some server.
 
 
-\section{Configuration file changes}
+\section{Configuration file changes} \label{cfgchanges}
 
 When output data is not embedded directly in the response document, there are two more options - it can be stored as a file or in a database. The decision is made based on a value . Therefore, a new option named \texttt{store\_type} must be added in the \texttt{server} section and its value set to \texttt{db}. If the option already exists, only the value must be changed. Position of the option within the \texttt{server} section is arbitrary.
 
@@ -79,8 +79,8 @@ store_type = db
 
 To connect to a remote database, the following login credentials are required - the name of the database, user name, password and a host (server the database runs on). The \texttt{PgWriter} class is designed to extract them from the configuration file, so the author must add a new section there that contains all the required information. An example of a complete  \texttt{db} section is shown below.
 
-\begin{verbatim}
-[db]
+\begin{verbatim} 
+[db]  
 host=geo102.fsv.cvut.cz
 user=pisl
 password=XXXXXXXX
