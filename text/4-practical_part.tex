@@ -5,9 +5,11 @@
 
 %% ML: use neni moc vhodne slovo, zkuste preformulovat
 %% JP: opraveno na consume (to je, myslim, termin, ktery se v tomto kontextu pouziva)
+%% ML: muze byt
 PyWPS allows to publish and consume geoprocessing services on a
 %% ML: zkuste vetu rozdelit (je prilis dlouha, v kratke sekvenci se opakuje 'and')
 %% JP: opraveno, snad je to o neco lepsi
+%% ML: ano
 server. Every process that is to be implemented by PyWPS must be
 constructed as a Python class and contain a list of inputs and outputs.
 Also, there must be a handler method with two parameters - request and
@@ -18,20 +20,24 @@ processes can be found in PyWPS documentation.
 %% JP: tady bych asi radeji nechal puvodni formulaci, prijde mi prirozenejsi a vyznamove prakticky stejna
 %% ML: running at a server?
 %% JP: upraveno
+%% ML: OK
 To send a request to PyWPS, an instance of PyWPS must be running at a server.
 %% ML: If it is bych asi uplne vynechal
 %% JP: smazano
+%% ML: OK
 The request is handled and a response is generated and returned
 %% ML: file -> document
 %% JP: upraveno
 %% ML: and -> which ?
 %% JP: upraveno {and -> that)
+%% ML: OK
 to the client. The response has a form of an \zk{XML} document that
 contains different elements depending on the type of the request.
 
 When an Execute request is called, a new, temporary folder is created
 %% ML: moved -> copied (nejsou odstranena ze zdroje)
 %% JP: upraveno
+%% ML: OK
 in location specified in configuration file and input data is copied
 here. While the process is being executed, temporary files may be
 generated in this folder. For every process, it must be specified what
@@ -48,9 +54,11 @@ The simplest option of delivering output data is to embed it in the
 \zk{XML} response document. Either as plain text, \zk{GML} or, in case
 %% ML: encoding scheme
 %% JP: upraveno
-of an image, encoding scheme. This is typically used when the output is
+%% ML: base64 bych ponechal, upraveno
+of an image, base64 encoding scheme. This is typically used when the output is
 %% ML: where - for PyWPS
 %% JP: upraveno, ale myslel jsem, ze to vyplyva z kontextu, cela kapitola se zabyva PyWPS
+%% ML: jj
 relatively small. For PyWPS, it is also the default option.
 
 %% ML: u obrazku, ktere jste vytvarel uvedte take zdroj (source: author)
@@ -59,7 +67,7 @@ relatively small. For PyWPS, it is also the default option.
   \includegraphics[width=350pt]{./pictures/optionone.png}
   %% ML: zkuste popisek rozsirit, konkretizovat (data odkud kam)
   %% JP: dopsano
-      \caption[Delivering output data directly to the client]{Delivering output data directly to the client (source:{author})}
+      \caption[Delivering output data directly to the client]{Delivering output data directly to the client (source: {author})}
       \label{fig:optionone}
   \end{figure}
   
@@ -73,12 +81,13 @@ relatively small. For PyWPS, it is also the default option.
 
   %% ML: u obrazku, ktere jste vytvarel uvedte take zdroj (source: author)
   %% JP: dopsano
-
+  %% ML: OK
+  
 \begin{figure}[H] \centering
   \includegraphics[width=370pt]{./pictures/optiontwo.png}
   %% ML: opet mirne konkretizujte
   %% JP: dopsano
-      \caption[Delivering output data via \zk{URL} reference]{Delivering output data via \zk{URL} reference (source:{author})}
+      \caption[Delivering output data via \zk{URL} reference]{Delivering output data via \zk{URL} reference (source: {author})}
       \label{fig:optiontwo}
   \end{figure}
 
@@ -96,6 +105,8 @@ relatively small. For PyWPS, it is also the default option.
 %% JP: muzu napsat neco jednoducheho jako "In this thesis, a third
 %% JP: option was developed that stores data in a PostGIS database.",
 %% JP: ale za sebe nevidim duvod
+%% ML: nejak mi tam nesedi: ... the existing two ..., ale pokud jste
+%% to konzultoval s rodilym mluvicim, tak to klidne nechte
 The aim of this thesis was to develop another variant to add to the
 existing two that stores output data in a PostGIS database.
 
@@ -107,23 +118,28 @@ copied there. When the \zk{XML} response is delivered to the client,
 %% name, username, password), viz poznamka nize - jde o jakysi
 %% mezikrok 
 %% JP: upraveno
+%% ML: OK
 it contains a reference that points to the location of the data 
 within the database. The reference is composed of the name of the database, schema and table. To access the data itself, database login credentials are neccessary.
 
-The current state is not definitive. In the final state, the client will receive a URL link that references to a \zk{WFS} service. The \zk{WFS} service itself will access the output data stored in a database and serve them to the client. 
+The current state is not definitive. In the final state, the client
+will receive a URL link that references to a \zk{WFS} service. The
+\zk{WFS} service itself will access the output data stored in a
+database and serve them to the client.
 
 %% ML: doplnte, ze jde o mezikrok (poskytnout referenci na databazi)
 %% reseni by se melo doplnit o podporu mapoveho serveru tak, aby
 %% klient dostal URL WFS sluzby (ta bude data cist z DB). Pote bude
 %% reseni ciste (z pohledu OGC standardu)
 %% JP: doplneno
-
+%% ML: v poradku
 
 \begin{figure}[H] \centering
   \includegraphics[width=350pt]{./pictures/newoption.png}
     %% ML: opet mirne konkretizujte + zdroj 
     %% JP: doplneno
-      \caption[Storing output data in a remote database]{Storing output data in a remote database (source:{author})}
+    %% ML: OK
+      \caption[Storing output data in a remote database]{Storing output data in a remote database (source: {author})}
       \label{fig:newoption}
   \end{figure}
 
@@ -144,15 +160,16 @@ PostGIS storage support. Details on PostGIS can be found in section
 \texttt{StorageAbstract} class that is part of PyWPS \zk{API}.
 %% part of PyWPS API
 %% JP: upraveno
+%% ML: OK
 
 %% ML: uvadejte pywps/iout (zpetna lomitka je Windows notace, ktera
 %% zde neni podstatna)
 %% JP: upraveno
 %% ML: misto adresarich mluvte radeji o Python modulech
 %% JP: upraveno
-PgStorage is stored within \texttt{storage.py} in the ./
-pywps/inout module. It consists of several methods that
-are described below.
+%% ML: OK
+PgStorage is stored within \texttt{storage.py} in the pywps.inout
+module. It consists of several methods that are described below.
 
 \subsubsection{\textunderscore \textunderscore init\textunderscore \textunderscore } 
 A constructor, i.e. it gets called automatically when an instance of
@@ -167,6 +184,7 @@ section and option.
 %% ML: ten popis je mozna prilis detaily, polopatisticky a spatne se
 %% cte, muzete zkusit zkratit / zprehlednit
 %% JP: trochu preformulovano
+%% ML: OK
 Correct section (\texttt{db}) is specified and saved to a
 variable. The name of the database is extracted from the
 configuration file and saved to a variable.
@@ -184,6 +202,7 @@ section in section \ref{cfgchanges}.
 %% ML: Opet, ten popis je prilis detailni, nevede to k citelnosti
 %% textu, neni to zasadni vytka, klidne nechte, mebo mirne upravte
 %% JP: zkraceno
+%% ML: OK
 First defines a variable \texttt{schema\textunderscore name} as a
 random string of specified length that consists of letters and
 digits. This is done using Python libraries \texttt{random} and
@@ -206,6 +225,7 @@ variable is returned.
 %% ML: na tomto miste bych spise nez o knihovne OGR mluvil o GDAL
 %% (muzete pridat link do technologii, aby byl text lepe provazan)
 %% JP: upraveno, pridan link
+%% ML: OK
 As its name suggests, it handles writing output data to the
 database. It benefits from an extensive use of GDAL library. More
 information about GDAL can be found in section \ref{gdal}. It has
@@ -232,7 +252,7 @@ The store method is defined in the \texttt{StorageAbstract} parent
 %% ML: muzete uvest, ze output je v tomto pripade instance tridy ComplexOutput 
 %% JP: doplníno
 class. Just as in the parent class, it has \texttt{output} as an input
-argument. In this case, output is an instance of the ComplexOutput class.
+argument. In this case, output is an instance of the \texttt{ComplexOutput} class.
 
 It initializies the \texttt{\textunderscore store\textunderscore
   output} method and passes it name and identifier of the output file.
@@ -246,10 +266,12 @@ There are three parameters returned by the method - the corresponding
 value of a DB variable defined within the \texttt{STORE\textunderscore
   %% ML: nazev vystupniho souboru neni v soucasnosti nijak pouzit 
   %% JP: nerozumim. co mam zmenit? metoda prece nazev opravdu vraci, at
-  %% uz se pak pouziva, nebo ne.  
+  %% uz se pak pouziva, nebo ne.
+  %% ML: to byla poznamka na okraj, nic nemente
   TYPE} class, name of the output file and the variable describing the
 %% ML: zduraznete ze jde o DB
 %% JP: tady take nerozumim
+%% ML: posledni promenna vraci "dbname.schema.table" - to neni z vety uplne zrejme
 location of the data. These must be returned as they are required by
 the \texttt{get\textunderscore url} method (defined within the
 %% ML: presne, viz poznamka vyse
@@ -263,6 +285,7 @@ All changes that have been done within the PyWPS source code can be
 examined in a \texttt{diff} folder that is appended to this thesis.
 %% ML: diff bude pravdepodobne pouze jeden, vetu muzete vynechat
 %% JP: smazano (predpokladal jsem, ze se pro kazdy modul vytvori sam. diff soubor)
+%% ML: bude stacit jeden diff se vsim (to je vetsinou standardni postup)
 
 %% ML: tyto zmeny nejsou aktualni!!! v tride Process jiz v soucasnosti
 %% zadne zmeny nejsou (pokud se nepletu), text je potreba upravit na
@@ -270,16 +293,20 @@ examined in a \texttt{diff} folder that is appended to this thesis.
 %% ML: v kodu jsem odstranil pozustatek zmen (583b5ea), nyni by ve
 %% tride Process jiz zadne zmeny byt nemely
 %% JP: vychazel jsem z toho jak trida vypadala, kdyz jsem kapitolu psal. ted tedy celou kapitolu mazu
+%% ML: OK
 
 %% ML: Output.py neni trida ale Python modul
 %% JP: opraveno
-\subsubsection{Outputs.py module}
+\subsubsection{Outputs module}
 
-This module includes three classes that define how outputs are handled and delivered to the client. Each class deals with one type of output data - Literal, Complex and BoundingBox.
+This module includes three classes that define how outputs are handled
+and delivered to the client. Each class deals with one type of output
+data - Literal, Complex and BoundingBox.
 %% ML: muzete uvest jake tridy tento modul poskytuje (ani ne jejich
 %% vycet), ale logicky ramec funkcionalit techto trid (vystupni typy
 %% parametru)
 %% JP: doplneno
+%% ML: OK
 Since there is another option being added of storing output data that
 returns a reference to the client, \texttt{\textunderscore
   %% ML: uvadite metodu, jake tridy, 
@@ -295,6 +322,7 @@ this purpose. For details on changes in the configuration file,
 refer to section \ref{cfgchanges}. The code block that has been added here
 %% ML: toto je nova konfiguracni promenna (to byste mel zminit)
 %% JP: pridano
+%% ML: OK
 first retrieves the value using \texttt{get\textunderscore
   config\textunderscore value}. If it is equal to \texttt{"db"},
 \texttt{PgStorage} is chosen to handle output data. In any other case
@@ -303,7 +331,7 @@ first retrieves the value using \texttt{get\textunderscore
 
 %% ML: opet jde o modul, doplnte jake tridy tento modul obsahuje
 %% JP: opraveno, doplneno
-\subsubsection{Storage.py module}
+\subsubsection{Storage module}
 
 \texttt{PgStorage} class has been added that implements the
 database storage functionality. For more details on this class,
@@ -328,6 +356,7 @@ variable that implies storing output data as a file, there is also a
 
 %% ML: testing?
 %% JP: myslel jsem to jako odkaz na nazev skriptu (test), ale je to jedno. upraveno
+%% ML: za me tez jedno
 \subsection{Testing} 
 
 A script has been developed to test whether the process of storing
@@ -336,6 +365,7 @@ outputs in a database functions correctly.
 For the purpose of this test, three simple processes have been
 written. One of them only returns a string, while the other two,
 %% ML: text preteka, opravte
+%% ML: OK
 (\texttt{process\_one\_output} and \linebreak
 \texttt{process\textunderscore two\textunderscore outputs}), produce
 one and two complex outputs, respectively.
@@ -344,6 +374,7 @@ one and two complex outputs, respectively.
 %% procesem z pywps flask demo!
 %% JP: mam tam vetu: "They are based on sample processes available for the PyWPS
 %% demo service." mam to jeste nejak zduraznovat, nebo to takto staci?
+%% ML: staci, asi jsem prehledl
 Both \texttt{process\textunderscore one\textunderscore output} and
 \texttt{process\textunderscore two\textunderscore outputs} generate
 buffers around input features, the latter also calculates centroids
@@ -383,9 +414,11 @@ refer to appendix \ref{testing}.
 
 %% ML: pokud bude v priloze ukazka spusteni, tak zde uvedte link
 %% JP: doplnil jsem
+%% ML: OK
 
 %% ML: podobne by mela byt v priloze ukazka konfigurace (v textu
 %% konfiguraci na vice mistech zminujete, doplnte linky do prilohy)
 %% JP: v priloze 2 mam ukazku sekce db + store_type=db; staci to tak,
 %% JP: nebo jste mel na mysli cely konfiguracni soubor?
+%% ML: staci takto
 %% JP: nejake linky jsem tam kazdopadne doplnil 
