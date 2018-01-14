@@ -208,8 +208,6 @@ random string of specified length that consists of letters and
 digits. This is done using Python libraries \texttt{random} and
 \texttt{string}.
  
-%In the future, schema_name should be created in another way so it is related to the process
-
 \texttt{Psycopg2} library is used to connect to database
 specified by the target variable. A try-except clause is included to raise
 an exception if the connection cannot not be established.
@@ -272,7 +270,9 @@ value of a DB variable defined within the \texttt{STORE\textunderscore
 %% ML: zduraznete ze jde o DB
 %% JP: tady take nerozumim
 %% ML: posledni promenna vraci "dbname.schema.table" - to neni z vety uplne zrejme
-location of the data. These must be returned as they are required by
+%% JP: doplneno
+location of the data that is composed of names of the database, schema and table.
+These must be returned as they are required by
 the \texttt{get\textunderscore url} method (defined within the
 %% ML: presne, viz poznamka vyse
 \texttt{ComplexOutput} class).
