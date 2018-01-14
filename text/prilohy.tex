@@ -15,7 +15,8 @@ $ pip3 install -r requirements.txt
 Clone the repository:
 
 \begin{lstlisting}
-$ git clone https://github.com/ctu-geoforall-lab-projects/bp-pisl-2018/tree/master
+$ git clone https://github.com/
+	ctu-geoforall-lab-projects/bp-pisl-2018/tree/master
 \end{lstlisting}
 
 Run demo application (taken from PyWPS-Demo):
@@ -99,24 +100,38 @@ dbname=pisl\_bp
 \label{cd}
 
 
-\setlength{\unitlength}{.5mm}
-\begin{picture}(250, 220)
 
-  \put(  0, 212){\textbf{.}}
+\begin{forest}
+  for tree={
+    font=\ttfamily,
+    grow'=0,
+    child anchor=west,
+    parent anchor=south,
+    anchor=west,
+    calign=first,
+    inner xsep=10pt,
+    edge path={
+      \noexpand\path [draw, \forestoption{edge}]
+      (!u.south west) +(7.5pt,0) |- (.child anchor) pic {folder} \forestoption{edge label};
+    },
+    before typesetting nodes={
+      if n=1
+        {insert before={[,phantom]}}
+        {}
+    },
+    fit=band,
+    before computing xy={l=25pt},
+  }  
+[CD
+  [src
+    [diff
+    ]
+  ]
+  [text
+  ]
+  [zadani
+  ]
+]
+\end{forest}
 
-  \put(  1, 200){\line(0, 1){5}}
-  \put(  1, 200){\line(1, 0){10} {\textbf{ src}}} 
-  \put(150, 200){ Source code}  
 
-  \put(  1,  190){\line(0, 1){10}}
-  \put(  1,  190){\line(1, 0){10} {\textbf{ diff}}}
-  \put(150,  190){ PyWPS source code alterations}                     
-          
-  \put(  1,  180){\line(0, 1){10}}
-  \put(  1,  180){\line(1, 0){10} {\textbf{ text}}}
-  \put(150,  180){ Text of the thesis in PDF format}
-      
-  \put(  1,  170){\line(0, 1){10}}
-  \put(  1,  170){\line(1, 0){10} {\textbf{ zadani}}}
-  \put(150,  170){ Assigned topic of the bachelor thesis}
-\end{picture}

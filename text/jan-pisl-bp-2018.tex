@@ -20,6 +20,25 @@
 
 \usepackage[czech, english]{babel}	% použití češtiny, angličtiny
 \usepackage[utf8]{inputenc}		% Kódování zdrojových souborů je UTF8
+\usepackage[dvips]{graphicx}   
+
+
+\usepackage{forest}
+
+\definecolor{folderbg}{RGB}{160,160,160}
+\definecolor{folderborder}{RGB}{160,160,160}
+
+\def\Size{6pt}
+\tikzset{
+  folder/.pic={
+    \filldraw[draw=folderborder,top color=folderbg!50,bottom color=folderbg]
+      (-1.05*\Size,0.2\Size+5pt) rectangle ++(.75*\Size,-0.2\Size-5pt);  
+    \filldraw[draw=folderborder,top color=folderbg!50,bottom color=folderbg]
+      (-1.15*\Size,-\Size) rectangle (1.15*\Size,\Size);
+  }
+}
+
+
 
 
 \usepackage[square,sort,comma,numbers]{natbib}
@@ -35,12 +54,12 @@
 \setlength{\@fpbot}{0pt plus 1fil}
 \makeatletter
 
-\usepackage[dvips]{graphicx}   
 \usepackage{color}
 \usepackage{transparent}
 \usepackage{wrapfig}
 \usepackage{float} 
 \usepackage{listings}
+\usepackage{dirtree}
 
 
 \usepackage{cmap}           
