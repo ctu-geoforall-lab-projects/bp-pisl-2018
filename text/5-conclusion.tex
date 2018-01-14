@@ -9,12 +9,12 @@ rather than in a standard file system.
 Until now, there were only two ways of returning data to the
 client. It was either embedded in the response directly or, typically
 if the data was larger or more complex, it remained stored on a server
-and the response included a reference (a \zk{URL} link) pointing to
+and the response included a reference (a~\zk{URL} link) pointing to
 the location from which the data could be downloaded.
 
 By adding the third option of storing outputs in a remote database,
 the output data can be transferred, stored and processed more
-effectively. However, there is a lot of room for improvement and
+effectively. However, there is a~lot of room for improvement and
 future work.
 
 Most importantly, current state of the extension provides the client
@@ -23,8 +23,10 @@ database. The client, however, has to access the database by
 themselves and only then work with the data.
 
 In the future, the client should be only given a unique \zk{URL} link
+%% ML: WMS pouze na okraj (jde pouze nahled o data, ale to nekdy muze
+%% uzivateli take stacit), uvedte take WCS pro rastrova data
 that points to a running \zk{WFS} or \zk{WMS} service that will be
-retrievíng data from the database. The client will not even need to be
+retrieving data from the database. The client will not even need to be
 aware where tha data is stored as they will access it easily through a
 standardized interface.
 
@@ -39,6 +41,9 @@ stored in the configuration file as plain text. Obviously, this is a
 major safety risk and a better, more secure solution is needed where
 (at least) the password would not be accessible directly.
 
+%% ML: velikost vystupu by mohla byt v jednoduche forme dana v
+%% konfiguracnim souboru, ten aktualne obsahuje volbu pro limit
+%% souboru na vstupu, ale to pouze na okraj, nechte text jak je
 Another problem that may arise if using this extension and that should
 be addressed in the future is exceeding the capacity of the database
 if the output data that is being copied to the database is too
@@ -53,5 +58,5 @@ the above mentioned changes will be worked on after this thesis has
 been submitted. The author plans to cooperate with authors of PyWPS to
 implement the extension as a pull request to the PyWPS repository.
 
-
-
+%% ML: zminte, ze zdrojove texty BP jsou dostupne v git repozitari na
+%% GitHubu vcetne URL
