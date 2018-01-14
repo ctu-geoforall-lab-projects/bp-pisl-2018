@@ -1,0 +1,122 @@
+diff --git a/pywps/inout/outputs.py b/pywps/inout/outputs.py
+index 59b3adb..061f6ab 100644
+--- a/pywps/inout/outputs.py
++++ b/pywps/inout/outputs.py
+@@ -8,9 +8,10 @@
+ from pywps._compat import text_type
+ from pywps import E, WPS, OWS, OGCTYPE, NAMESPACES
+ from pywps.inout import basic
+-from pywps.inout.storage import FileStorage
++from pywps.inout.storage import FileStorage, PgStorage
+ from pywps.inout.formats import Format
+ from pywps.validator.mode import MODE
++from pywps import configuration as config
+ import lxml.etree as etree
+ import six
+ 
+@@ -198,7 +199,14 @@ class ComplexOutput(basic.ComplexOutput):
+         doc = WPS.Reference()
+ 
+         # get_url will create the file and return the url for it
+-        self.storage = FileStorage()
++        store_type = config.get_config_value('server', 'store_type')
++        self.storage = None
++        if store_type == 'db' and \
++           config.get_config_value('db', 'dbname'):
++            # TODO: more databases in config file
++            self.storage = PgStorage()
++        else:
++            self.storage = FileStorage()
+         doc.attrib['{http://www.w3.org/1999/xlink}href'] = self.get_url()
+ 
+         if self.data_format:
+diff --git a/pywps/inout/storage.py b/pywps/inout/storage.py
+index 0868cc5..7eb2095 100644
+--- a/pywps/inout/storage.py
++++ b/pywps/inout/storage.py
+@@ -17,6 +17,8 @@ LOGGER = logging.getLogger('PYWPS')
+ 
+ class STORE_TYPE:
+     PATH = 0
++    DB = 1 # TODO: PG?
++
+ # TODO: cover with tests
+ 
+ 
+@@ -136,6 +138,76 @@ class FileStorage(StorageAbstract):
+ 
+         return (STORE_TYPE.PATH, output_name, url)
+ 
++class PgStorage(StorageAbstract):
++    """PostGIS/PostgreSQL storage implementation, stores data to PostGIS database
++    """
++    def __init__(self):
++        # TODO: more databases in config file
++        dbsettings = "db"
++        self.dbname = config.get_config_value(dbsettings, "dbname")
++        self.target = "dbname={} user={} password={} host={}".format(
++            self.dbname,
++            config.get_config_value(dbsettings, "user"),
++            config.get_config_value(dbsettings, "password"),
++            config.get_config_value(dbsettings, "host")
++        )
++
++        # self.schema_name = self.create_schema(identifier, uuid)
++        self.schema_name = self._create_schema()
++
++    def _create_schema(self):
++        import psycopg2
++        import random
++        import string
++
++        # random schema
++        N = 10
++        schema_name = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(N))
++        # process based schema (TODO)
++        # schema_name = '{}_{}'.format(identifier.lower(),
++        #                              str(uuid).lower()
++        # )
++
++        try:
++            conn = psycopg2.connect(self.target)
++        except:
++            raise Exception ("Database connection has not been established.")
++        cur = conn.cursor()
++        query = 'CREATE SCHEMA IF NOT EXISTS "{}";'.format(schema_name)
++        try:
++            cur.execute(query)
++        except:
++            raise Exception("The query did not run succesfully.")
++        conn.commit()
++        cur.close()
++        conn.close()
++        return schema_name
++
++    def _store_output(self, file_name, identifier):
++        from osgeo import ogr
++        #        try:
++        LOGGER.debug("Connect string: {}".format(self.target))
++        dsc_in = ogr.Open(file_name)
++        if dsc_in is None:
++            raise Exception("Reading data failed.")
++        dsc_out = ogr.Open("PG:" + self.target)
++        if dsc_out is None:
++            raise Exception("Database connection has not been established.")
++        layer = dsc_out.CopyLayer(dsc_in.GetLayer(), identifier,
++                                  ['OVERWRITE=YES',
++                                   'SCHEMA={}'.format(self.schema_name)]
++        )
++        # TODO: layer is valid even copying failed (schema do not exists)
++        if layer is None:
++            raise Exception("Writing output data to the database failed.")
++
++        return identifier
++
++    def store(self, output):
++        self._store_output(output.file, output.identifier)
++        url = '{}.{}.{}'.format(self.dbname, self.schema_name, output.identifier)
++
++        return (STORE_TYPE.DB, output.file, url)
+ 
+ def get_free_space(folder):
+     """ Return folder/drive free space (in bytes)
