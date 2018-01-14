@@ -90,7 +90,7 @@ def run_process(URL, refcount):
     elif identifier == 'process-two-outputs':
         value2 = get_value(root, identifier='centr_out')
         parse_string(value2)
-        check_output(value2, refcount, ogr.wkbPolygon)
+        check_output(value2, refcount, ogr.wkbPoint)
 
 if __name__ == "__main__":
     data = "http://127.0.0.1:5000/static/data/points.gml"
