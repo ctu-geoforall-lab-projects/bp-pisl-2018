@@ -30,7 +30,7 @@ In case of \zk{WPS}, a process is a geospatial operation, calculation or a
 model of any complexity. It may require one or more input arguments
 and always yields one or more outputs. If there are no input
 arguments, the process is either generating constant or random
-values. While\zk{WPS}was designed for geospatial data, it is not
+values. While \zk{WPS} was designed for geospatial data, it is not
 restricted to them.
 
 \begin{figure}[H] \centering
@@ -41,7 +41,7 @@ restricted to them.
       \label{fig:WPS}
   \end{figure}
 
-There are two basic capabilities of a\zk{WPS}server. It provides the
+There are two basic capabilities of a \zk{WPS} server. It provides the
 process and retrieves the process description and it controls and
 monitors processing jobs. Job is an instance of a process – it is an
 object created for a particular process execution. Job control is the
@@ -55,7 +55,7 @@ complexity of the process is lower, the connection is stable and the
 completion time is relatively short (for instance, the Apache2 server
 uses 60 seconds as a default value for ConnectionTimeout \cite{apache})
 the execution is run synchronously. After the execute request is sent
-by the client, the\zk{WPS}server starts executing the process while the
+by the client, the \zk{WPS} server starts executing the process while the
 client remains connected to the server for the entire time of the
 execution. Only when the process has finished and the output has been
 delivered, the connection terminates.
@@ -80,7 +80,7 @@ service. \cite{getcap} For \zk{WPS}, it is one of the three basic operations tha
 available for any process. There are no input parameters required. Once
 the request is sent, the server returns a document that includes
 information about the service provider, a list of operations available
-for a\zk{WPS}server and a list of all the processes offered by the
+for a \zk{WPS} server and a list of all the processes offered by the
 service.
 
 \noindent \textbf{DescribeProcess.} Another basic operation. The only
@@ -150,7 +150,7 @@ significant changes include every input being considered a list of
 inputs and all inputs having file, data and stream attributes. \cite{pywps3to4} These
 attributes allow better manipulation with data.
 	
-As PyWPS only supports version 1.0.0 of the OGC\zk{WPS}standards, it does
+As PyWPS only supports version 1.0.0 of the OGC \zk{WPS} standards, it does
 not support operations implemented in version 2.0.0. These operations
 are GetStatus, GetResult and Dismiss. Support for version 2.0.0 is
 currently being planned.\cite{pywps}
@@ -163,10 +163,10 @@ currently being planned.\cite{pywps}
       \label{fig:ZOO-Project}
   \end{figure}
 
-ZOO-project is an open source\zk{WPS}platform that consists of several
-components. The core processing engine, ZOO-Kernel, is a\zk{WPS}server
-written in C that implements\zk{WPS}standards 1.0.0 and 2.0.0.\cite{zoo}
-A significant advantage over other\zk{WPS}implementations is that it is
+ZOO-project is an open source \zk{WPS} platform that consists of several
+components. The core processing engine, ZOO-Kernel, is a \zk{WPS} server
+written in C that implements \zk{WPS} standards 1.0.0 and 2.0.0.\cite{zoo}
+A significant advantage over other \zk{WPS} implementations is that it is
 written as a polyglot, i.e. in a valid form of multiple programming
 languages, which performs the same operations independent of the
 programming language used to compile or interpret it.\cite{polyglot}
@@ -182,8 +182,8 @@ programming languages that are supported. It also offers easy
 conversion of vector formats.
 
 ZOO-Client is a simple client-side JavaScript \zk{API} for interacting with
-\zk{WPS} from web applications. It allows to build\zk{WPS}requests and send
-them to a\zk{WPS}server. \cite{zooclient} It also provides functions to easily parse the
+\zk{WPS} from web applications. It allows to build \zk{WPS} requests and send
+them to a \zk{WPS} server. \cite{zooclient} It also provides functions to easily parse the
 output \zk{XML} responses.
 
 
@@ -194,15 +194,15 @@ output \zk{XML} responses.
       \label{fig:52 North}
   \end{figure}
 
-52°North\zk{WPS}is a part of the 52°North open source software
+52°North \zk{WPS} is a part of the 52°North open source software
 initiative. Located in Germany, their aim is to foster innovation in
 the field of geoinformatics through a collaborative process. As a part
-of this inititiave, the 52°North\zk{WPS}is an implementation of the \zk{OGC}
+of this inititiave, the 52°North \zk{WPS} is an implementation of the \zk{OGC}
 \zk{WPS} standard (version 1.0.0). It is written in the Java programming
 language. It can be run under Linux or Microsoft Windows operating
 systems.
 
-As for the\zk{WPS}invocation methods, it supports both synchronous and
+As for the \zk{WPS} invocation methods, it supports both synchronous and
 asynchronous invocation, HTTP-GET and HTTP-POST. As for the WPS
 datatypes, it supports GeoTIFF, Shapefile, \zk{KML}, \zk{WKT} and
 others. \cite{north} Configuration is based on an \zk{XML} file.
@@ -229,9 +229,9 @@ in other ArcGIS software and then published online, into online web
 applications. Users can also take advantage of the Web App Builder
 feature and of many templates that simplify creating applications.
 
-By default, ESRI software does not follow\zk{WPS}standards. However, when
+By default, ESRI software does not follow \zk{WPS} standards. However, when
 publishing a geoprocessing service in ArcGIS Desktop, there is a
-possibility to enable the\zk{WPS}capability. Then, the service published
+possibility to enable the \zk{WPS} capability. Then, the service published
 is compliant with the \zk{OGC} \zk{WPS} 1.0.0 specifications.\cite{arcgiswps}
 
 \section{Spatial Databases}
@@ -378,7 +378,7 @@ same time.\cite{esritypes}
 \section{Background research}
 
 
-PyWPS is only one of the many implementations of the \zk{WPS}standard,
+PyWPS is only one of the many implementations of the \zk{WPS} standard,
 each of them approaching the problem of storing output data
 differently. From those listed above, the ZOO-project provides the
 "ZOO-kernel optional database support" \cite{zoodb} that is most
