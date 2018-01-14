@@ -95,7 +95,7 @@ relatively small. For PyWPS, it is also the default option.
   choose. For the latter option, the \texttt{"@asReference"} value
   must be set to \texttt{"True"} in the request. \cite{asref} By
   default, it is set to \texttt{"False"}.
-
+  
 
 \subsubsection{Proposed Extension} 
 
@@ -109,6 +109,15 @@ relatively small. For PyWPS, it is also the default option.
 %% to konzultoval s rodilym mluvicim, tak to klidne nechte
 The aim of this thesis was to develop another variant to add to the
 existing two that stores output data in a PostGIS database.
+
+\begin{figure}[H] \centering
+  \includegraphics[width=350pt]{./pictures/newoption.png}
+    %% ML: opet mirne konkretizujte + zdroj 
+    %% JP: doplneno
+    %% ML: OK
+      \caption[Storing output data in a remote database]{Storing output data in a remote database (source: {author})}
+      \label{fig:newoption}
+  \end{figure}
 
 From the point of view of the consumer of a process, it is similar to
 the previous option. After the final output has been produced,
@@ -134,17 +143,19 @@ database and serve them to the client.
 %% JP: doplneno
 %% ML: v poradku
 
-\begin{figure}[H] \centering
-  \includegraphics[width=350pt]{./pictures/newoption.png}
-    %% ML: opet mirne konkretizujte + zdroj 
-    %% JP: doplneno
-    %% ML: OK
-      \caption[Storing output data in a remote database]{Storing output data in a remote database (source: {author})}
-      \label{fig:newoption}
-  \end{figure}
+
 
 
 To use this functionality as a consumer of a process, it must be implemented in the process by its author. For details on implementation when creating a process, please refer to appendix \ref{appendix}.
+
+
+  
+\begin{figure}[H] \centering
+\includegraphics[width=426pt]{./pictures/options.jpg}
+    \caption[Three options of delivering output data to the client]{Three options of delivering output data to the client (source: {author})}
+    \label{fig:options}
+\end{figure}
+
 
 
 \section{Development} 
