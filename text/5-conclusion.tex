@@ -25,10 +25,11 @@ themselves and only then work with the data.
 In the future, the client should be only given a unique \zk{URL} link
 %% ML: WMS pouze na okraj (jde pouze nahled o data, ale to nekdy muze
 %% uzivateli take stacit), uvedte take WCS pro rastrova data
-that points to a running \zk{WFS} or \zk{WMS} service that will be
-retrieving data from the database. The client will not even need to be
-aware where tha data is stored as they will access it easily through a
-standardized interface.
+%% JP: doplneno
+that points to a running \zk{WFS} (or, for only viewing data, \zk{WMS} 
+and \zk{WCS}) service that will be retrieving data from the database. 
+The client will not even need to be aware where tha data is stored 
+as they will access it easily through a standardized interface.
 
 The author encountered several other issues during the
 development. Some of them have been solved, others were out of the
@@ -44,6 +45,7 @@ major safety risk and a better, more secure solution is needed where
 %% ML: velikost vystupu by mohla byt v jednoduche forme dana v
 %% konfiguracnim souboru, ten aktualne obsahuje volbu pro limit
 %% souboru na vstupu, ale to pouze na okraj, nechte text jak je
+%% JP: ok
 Another problem that may arise if using this extension and that should
 be addressed in the future is exceeding the capacity of the database
 if the output data that is being copied to the database is too
@@ -57,6 +59,10 @@ extension can be fully implemented by PyWPS. Due to time constraints,
 the above mentioned changes will be worked on after this thesis has
 been submitted. The author plans to cooperate with authors of PyWPS to
 implement the extension as a pull request to the PyWPS repository.
+The entire thesis, including text, source code and sample data, 
+is available on GitHub at: \href{https://github.com/ctu-geoforall-lab-projects/bp-pisl-2018}{https://github.com/ctu-geoforall-lab-projects/bp-pisl-2018}.
+
 
 %% ML: zminte, ze zdrojove texty BP jsou dostupne v git repozitari na
 %% GitHubu vcetne URL
+%% JP: pridano
