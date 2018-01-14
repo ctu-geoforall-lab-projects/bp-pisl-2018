@@ -9,6 +9,7 @@ text/jan-pisl-bp-2018.pdf
 src/pywps.cfg
 src/logs
 src/outputs
+src/src
 __pycache__
 *~
 *.toc
