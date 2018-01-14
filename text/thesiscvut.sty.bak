@@ -549,7 +549,7 @@ ethical principles of preparation of university final projects.}
 }
 
 \addto\captionsenglish{%
-   \def\listfigurename{Seznam obrázků}%
+   \def\listfigurename{List of Figures}%
 }%
 
 %% Predefinovani seznamu tabulek
