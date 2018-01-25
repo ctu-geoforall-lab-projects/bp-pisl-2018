@@ -14,7 +14,7 @@ Ing. Martin Landa, Ph.D.
 
 ## Reader
 
-TODO
+Ing. Jáchym Čepický
 
 ## Defence
 
